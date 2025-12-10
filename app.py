@@ -4,7 +4,7 @@ import mysql.connector
 
 app = FastAPI()
 con = mysql.connector.connect(
-    user = "root",
+    user = "user",
     password = "12345678",
     host = "localhost",
     database = "taipei_day_trip"
