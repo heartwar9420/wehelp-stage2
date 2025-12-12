@@ -2,17 +2,18 @@ import json
 import mysql.connector
 # 建立資料庫連線
 con = mysql.connector.connect(
-    user = "root",
+    user = "app_user",
     password = "12345678",
     host = "localhost",
-    database = "taipei_day_trip"
+    database = "taipei_day_trip",
+    use_pure=True
 )
 print("連線成功")
 
 cursor = con.cursor()
 
 ## 讀取JSON檔
-with open("taipei-day-trip/data/taipei-attractions.json", 'r' ,encoding="utf-8") as f:
+with open("data/taipei-attractions.json", 'r' ,encoding="utf-8") as f:
     content = f.read()
 mydict = json.loads(content) # 把 json檔 用字典的方式存取
 # print(mydict['result'].keys()) # 用 .keys 來看在 result 底下有哪些分類
