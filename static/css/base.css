@@ -1,5 +1,20 @@
 @charset "UTF-8";
 
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1 0 auto;
+    width: 100%;
+}
+
 * {
   margin :0;
   padding :0;
@@ -97,30 +112,10 @@ h2{
   cursor: pointer;
 }
 
-
-/* 1. 確保最外層容器佔滿螢幕 */
-html, body {
-    height: 100%;
-    margin: 0;
-}
-
-body {
-    display: flex;
-    flex-direction: column; /* 垂直排列 */
-    min-height: 100vh;      /* 確保 body 至少跟螢幕一樣高 */
-}
-
-/* 2. 讓 main 成為「伸縮器」 */
-main {
-    flex: 1 0 auto;  /* 關鍵：它會自動長大填滿空白空間，把 footer 頂到底部 */
-    width: 100%;
-}
-
-/* 3. 固定 footer 的高度 */
 footer {
-    flex-shrink: 0;  /* 確保 footer 不會被壓縮 */
+    flex-shrink: 0;
     background-color: #757575;
-    height: 104px;   /* 設計稿要求的固定高度 */
+    height: 104px;
     display: flex;
     justify-content: center;
     align-items: center;

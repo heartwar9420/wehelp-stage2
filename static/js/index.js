@@ -152,11 +152,11 @@ async function api_mrts() { //非同步函式，等待await api 回應
 
       btn.addEventListener("click", () => {
         const searchInput = document.querySelector(".search-bar");
-        searchInput.value = name; // 1. 填入文字
+        searchInput.value = name; // 填入文字
         
-        currentKeyword = name;    // 2. 更新全域關鍵字
-        nextPage = 0;             // 3. 重設頁碼
-        api_attractions(0, name); // 4. 觸發搜尋
+        currentKeyword = name;    // 更新全域關鍵字
+        nextPage = 0;             // 重設頁碼
+        api_attractions(0, name); // 觸發搜尋
     });
 
       mrtsMenu.appendChild(btn) // .appendChild(btn) = 把做好的btn 放到 div中間
@@ -188,7 +188,6 @@ async function api_attractions(page,keyword = "") {
             let url = `/api/attractions?page=${page}`;
 
             if (keyword) {
-                // 動態判斷：如果 keyword 存在於 categoryList 中，就用 category 參數
                 if (categoryList.includes(keyword)) {
                     url += `&category=${encodeURIComponent(keyword)}`;
                 } else {
@@ -196,7 +195,6 @@ async function api_attractions(page,keyword = "") {
                 }
             }
 
-        // 2. 關鍵修正：fetch 的對象必須是上面那個 url 變數！
         const res = await fetch(url); 
         
         if (!res.ok) throw new Error("API 請求失敗");
@@ -204,10 +202,10 @@ async function api_attractions(page,keyword = "") {
         const data = json.data;
         nextPage = json.nextPage;
 
-        // 3. 如果是 page 0 (代表新搜尋)，清空舊內容
+        // 如果 page = 0 清空舊內容
         if (page === 0) attractionList.innerHTML = "";
 
-        // 4. 檢查是否有資料
+        // 檢查是否有資料
         if (!data || data.length === 0) {
             attractionList.innerHTML = `<p class="error">找不到與「${keyword}」相關的景點</p>`;
             return;
@@ -246,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // next page
 
 const observer = new IntersectionObserver((entries) => { // IntersectionObserver 用來監測 是否到達頁底
-    if (entries[0].isIntersecting && nextPage !== null && !isLoading) { //如果下一頁不是 null 而且 entries 是否出現在頁底了？
+    if (entries[0].isIntersecting && nextPage !== null && !isLoading) { //如果下一頁不是 null 而且 entries 出現在頁底了嗎？
         api_attractions(nextPage, currentKeyword); //跑一次函式
     }
 }, { threshold: 0.1 }); //觸發門檻 0~1
