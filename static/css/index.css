@@ -1,0 +1,222 @@
+@charset "UTF-8";
+/* hero */
+.hero{
+  width: 100%;
+  height: 320px;
+  position: relative;
+  z-index: 20;
+}
+
+.hero_img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  z-index: 0;
+  object-fit: cover;
+  /* 嘗試調整對齊點，例如對齊右側或上方，視圖片內容而定 */
+  object-position: center top; 
+}
+.hero_inner{
+  max-width: 1200px;
+  height:100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display:flex;
+  align-items: center;
+}
+.hero_text{
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  transform:none;
+}
+h1.hero_title {
+  margin-bottom: 15px;
+  color: #FFFFFF;
+}
+
+.hero_slogan{
+  margin-bottom: 25px;
+}
+
+.search-area{
+  max-width:460px ;
+  width: 100%;
+}
+
+.search-bar-row{
+  display:flex;
+  width: 100%;
+  max-width: 460px;
+  max-height: 46px;
+  overflow: hidden;
+  flex-wrap: nowrap;
+  border-radius: 5px;
+  background-color: #FFFFFF;
+  margin-bottom: 5px;
+}
+
+.search-selector{
+  width: 100px;
+  padding: 16px 8px;
+  background-color: #EEEEEE;
+  cursor: pointer;
+  color :#000000;
+  white-space: nowrap;
+}
+
+.search-bar{
+  flex: 1;
+  min-width: 0;
+  margin-left: 15px;
+  color: #757575;
+}
+
+.search-btn{
+  flex-shrink: 0;
+  padding: 8px 15px;
+  background-color: #448899;
+}
+
+.search-btn-image{
+  width: 30px;
+  height: 30px;
+}
+
+.is-hidden{
+  display:none;
+}
+
+.category-popup{
+  position: absolute;  /* 關鍵！讓它漂浮，不佔據實際空間 */
+  width: 300px;
+  height: 160px;
+  top: 100%;           /* 剛好貼在父層（按鈕）的底部 */
+  left: 0;
+  z-index: 999;         /* 確保它蓋在景點照片上面  */
+  background-color: white;
+  box-shadow: 0px 4px 20px rgba(255, 255, 255, 1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.category-item{
+  width: 100px;
+  height: 40px;
+  background-color: #FFFFFF;
+  padding :10px 0px;
+  color:rgba(0, 0, 0, 1);
+}
+
+.category-item:hover {
+  background-color: #e6dede;
+}
+
+/* attraction-mrt-list */
+/* mrt-list-bar */
+
+.mrt-list-bar{
+  max-width: 1200px;
+  margin: 35px auto 20px;
+  padding: 0 20px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mrt-list-container {
+  display: flex;
+  align-items: center;
+  overflow-x: hidden;     /* 把按鈕中沒輪到顯示的部分隱藏起來 並且取消拖動軸 */
+  white-space: nowrap;    /* 讓按鈕的中文維持橫的 保持同一行 不換行 */
+}
+
+.mrtsbtn {
+  padding: 0px 15px;
+  color:rgba(102, 102, 102, 1);
+}
+
+.mrtsbtn:hover{
+  color: #918484;
+}
+
+.mrt-list-left-button{
+  padding: 9px 0px 9px 10px;
+}
+
+.mrt-list-right-button{
+  padding: 9px 15px 9px 0px;
+}
+
+.mrt-list-btn-image{
+  width:32px;
+  height: 32px;
+}
+
+/* attraction */
+
+.attraction-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 電腦版 4 欄 */
+    gap: 30px;
+    padding: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.attraction-card{
+  border:2px #E8E8E8 solid;
+  border-radius: 5px;
+}
+
+.attractions-image {
+  width: 100%; /* 寬度隨卡片撐滿 */
+  height: 200px; /* 強制設定一個高度 */
+  overflow: hidden; /* 超出的部分藏起來 */
+  position: relative;
+  z-index: 0;
+}
+
+.attractions-image-name {
+  position: absolute;   /* 要加上加上座標 不然不會出現*/ 
+  bottom: 0; /* 貼齊底部 */
+  left: 0; /* 貼齊左側 */
+  width: 100%;
+  
+  background-color: rgba(0, 0, 0, 0.6); /* 文字的背景色 */
+  color: white;
+  padding: 10px;
+  
+  z-index: 10;
+}
+
+.attractions-info{
+  display: flex;
+  justify-content: space-between;
+  padding:10px;
+  color:#757575;
+}
+
+.attractions-image img {
+  width: 100%; /* 寬度填滿 */
+  height: 100%; /* 高度填滿 */
+  border-radius: 5px;
+  object-fit: cover; /* 保持比例填滿容器，超出的部分自動裁切，不會變形 */
+  display: block;
+}
+
+@media (max-width: 1250px){
+.attraction-list {
+  grid-template-columns: repeat(2, 1fr);
+}
+}
+
+@media (max-width: 600px){
+.attraction-list {
+  grid-template-columns: repeat(1, 1fr);
+}
+}

@@ -1,0 +1,133 @@
+@charset "UTF-8";
+
+* {
+  margin :0;
+  padding :0;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+
+.btn{
+  cursor: pointer;
+}
+.btn:hover{
+  opacity: 0.7;
+}
+
+button, input {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  outline: none;
+  font: inherit;
+  line-height: normal;
+}
+
+
+h1{
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+h2{
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 34px;
+  letter-spacing: 0;
+}
+
+.body-bold{
+  font-weight:700;
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: #FFFFFF;
+}
+
+.body-med{
+  font-weight:500;
+  font-size: 16px;
+  line-height: 13.3px;
+  letter-spacing: 0%;
+  text-align: center;
+}
+
+.category-list-med{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+
+
+.navigation{
+  width: 100%;
+}
+
+.navigation_inner{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navigation_title{
+  flex: 0 0 auto;
+  color: #448899;
+}
+
+.navigation_right{
+  display: flex;
+  gap: 10px;
+}
+
+.navigation_btn{
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1;
+  color: #666666;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+
+/* 1. 確保最外層容器佔滿螢幕 */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    min-height: 100vh;      /* 確保 body 至少跟螢幕一樣高 */
+}
+
+/* 2. 讓 main 成為「伸縮器」 */
+main {
+    flex: 1 0 auto;  /* 關鍵：它會自動長大填滿空白空間，把 footer 頂到底部 */
+    width: 100%;
+}
+
+/* 3. 固定 footer 的高度 */
+footer {
+    flex-shrink: 0;  /* 確保 footer 不會被壓縮 */
+    background-color: #757575;
+    height: 104px;   /* 設計稿要求的固定高度 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#footer-sentinel {
+   height: 10px; 
+   width: 100%; 
+   margin-top: 10px; 
+  }
