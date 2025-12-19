@@ -89,14 +89,13 @@ async function api_categories() { //非同步函式，等待await api 回應
         if (popupname === "全部分類"){
           category_btn.textContent = popupname + " ▼";;
           currentCategory = "";
-          currentKeyword = "";
-          searchInput.value = "";
         } else {
           category_btn.textContent = popupname + " ▼";
           currentCategory = popupname;
-          searchInput.value = popupname; // 把使用者的輸入文字清空
         }
         
+        currentKeyword = searchInput.value.trim();
+
         nextPage = 0;
         api_attractions(0, currentKeyword,currentCategory);
         closePopup();
@@ -127,7 +126,7 @@ searchForm.addEventListener("submit", (event) => { //submit 是為了讓使用�
     currentKeyword = searchInput.value.trim(); // trim = 把頭尾的空白清掉
 
     nextPage = 0; // 把頁數調回 0
-    api_attractions(0, currentKeyword);
+    api_attractions(0, currentKeyword,currentCategory);
 });
 
 
@@ -187,7 +186,7 @@ async function api_mrts() { //非同步函式，等待await api 回應
         
         currentKeyword = mrtsname; // 更新全域關鍵字
         nextPage = 0; // 重設頁碼
-        api_attractions(0, mrtsname , currentCategory); // 觸發搜尋
+        api_attractions(0, mrtsname , currentCategory ,currentKeyword); // 觸發搜尋
     });
 
       mrtsMenu.appendChild(mrtsbtn) // .appendChild(mrtsname) = 把做好的btn 放到 div中間
