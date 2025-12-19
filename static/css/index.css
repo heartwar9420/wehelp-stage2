@@ -1,49 +1,53 @@
 @charset "UTF-8";
 /* hero */
 .hero{
-  width: 100%;
   height: 320px;
-  position: relative;
-  z-index: 20;
+  position: relative; /* 相對定位 , 為了讓子元素可以用 absolute */
+  z-index: 1;
 }
 
-.hero_img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  position: absolute;
+.hero-img {
+  object-fit: cover; /* 讓圖片填滿容器且不變形 但需要知道容器的大小*/
+  width: 100%; /*給object-fit 一個明確的容器大小 */
+  height: 100%; /*給object-fit 一個明確的容器大小 */
+  object-position: center top; /* 通常會和 object-fit 同時使用 , 預設是 center center 全部置中 */
+  /* 也可以寫object-position: 50% 50% = 等於 center center */
+  position: absolute; /* 絕對定位 不會佔據html中的空間 */
   z-index: 0;
-  object-fit: cover;
-  object-position: center top; 
 }
-.hero_inner{
+
+.hero-inner{
   max-width: 1200px;
   height:100%;
-  margin: 0 auto;
-  padding: 0 20px;
+  margin: 0 auto; /*上下 = 0 , 左右 = 自動分完 = 置中  */
+  padding: 0 20px; /* 上下 , 左右 */
   display:flex;
-  align-items: center;
+  align-items: center; /* 垂直置中 */
 }
-.hero_text{
+
+.hero-text{
   width: 100%;
   position: relative;
   z-index: 1;
-  top: 0;
-  left: 0;
-  transform:none;
+  top: 0; /* 距離上面 0 像素 */
+  left: 0; /* 距離左邊 0 像素 */
+  /* 這兩行合在一起 就是 對齊左上角*/
 }
-h1.hero_title {
+
+.hero-title {
   margin-bottom: 15px;
   color: #FFFFFF;
 }
 
-.hero_slogan{
+.hero-slogan{
   margin-bottom: 25px;
+  color: #FFFFFF;
 }
 
 .search-area{
   max-width:460px ;
   width: 100%;
+  display: flex;
 }
 
 .search-bar-row{
@@ -51,9 +55,9 @@ h1.hero_title {
   width: 100%;
   max-width: 460px;
   max-height: 46px;
-  overflow: hidden;
-  flex-wrap: nowrap;
-  border-radius: 5px;
+  overflow: hidden;  /* 把超出的部分隱藏起來 */
+  flex-wrap: nowrap; /* 元素禁止換行 */
+  border-radius: 5px; 
   background-color: #FFFFFF;
   margin-bottom: 5px;
 }
@@ -62,20 +66,23 @@ h1.hero_title {
   width: 100px;
   padding: 16px 8px;
   background-color: #EEEEEE;
-  cursor: pointer;
   color :#000000;
-  white-space: nowrap;
+  white-space: nowrap; /* 文字禁止換行 */
+}
+
+.search-form{
+  display : flex;
+  width: 100%;
 }
 
 .search-bar{
-  flex: 1;
+  flex: 1; /* 會改變寬度自動伸展, 把剩餘空間吃掉 */
   min-width: 0;
   margin-left: 15px;
   color: #757575;
 }
 
 .search-btn{
-  flex-shrink: 0;
   padding: 8px 15px;
   background-color: #448899;
 }
@@ -95,7 +102,7 @@ h1.hero_title {
   height: 160px;
   top: 100%;
   left: 0;
-  z-index: 999;
+  z-index: 10;
   background-color: white;
   box-shadow: 0px 4px 20px rgba(255, 255, 255, 1);
   border-radius: 8px;
@@ -112,6 +119,14 @@ h1.hero_title {
 
 .category-item:hover {
   background-color: #e6dede;
+}
+
+.category-list-med{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
 }
 
 /* attraction-mrt-list */
@@ -131,7 +146,7 @@ h1.hero_title {
   display: flex;
   align-items: center;
   overflow-x: hidden;     /* 把按鈕中沒輪到顯示的部分隱藏起來 並且取消拖動軸 */
-  white-space: nowrap;    /* 讓按鈕的中文維持橫的 保持同一行 不換行 */
+  white-space: nowrap;    /* 強制文字 不換行 */
 }
 
 .mrtsbtn {
@@ -159,12 +174,12 @@ h1.hero_title {
 /* attraction */
 
 .attraction-list {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-    padding: 15px;
-    max-width: 1200px;
-    margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 不論多寛 分成 4 * 1 份 */
+  gap: 30px;
+  padding: 15px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .attraction-card{
@@ -173,23 +188,21 @@ h1.hero_title {
 }
 
 .attractions-image {
-  width: 100%; /* 寬度隨卡片撐滿 */
-  height: 200px; /* 強制設定一個高度 */
-  overflow: hidden; /* 超出的部分藏起來 */
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
   position: relative;
   z-index: 0;
 }
 
 .attractions-image-name {
-  position: absolute;   /* 要加上加上座標 不然不會出現*/ 
-  bottom: 0; /* 貼齊底部 */
-  left: 0; /* 貼齊左側 */
+  position: absolute;
+  bottom: 0; 
+  left: 0;
   width: 100%;
-  
-  background-color: rgba(0, 0, 0, 0.6); /* 文字的背景色 */
+  background-color: rgba(0, 0, 0, 0.6);
   color: white;
   padding: 10px;
-  
   z-index: 10;
 }
 
@@ -201,10 +214,10 @@ h1.hero_title {
 }
 
 .attractions-image img {
-  width: 100%; /* 寬度填滿 */
-  height: 100%; /* 高度填滿 */
+  width: 100%;
+  height: 100%; 
   border-radius: 5px;
-  object-fit: cover; /* 保持比例填滿容器，超出的部分自動裁切，不會變形 */
+  object-fit: cover; 
   display: block;
 }
 

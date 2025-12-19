@@ -11,28 +11,30 @@
   <main>
     <!-- navigation -->
     <nav class = "navigation">
-      <div class = "navigation_inner">
-        <h2 class = "navigation_title">台北一日遊</h2>
-        <div class = "navigation_right">
-          <button class = "navigation_btn btn">預定行程</button>
-          <button class = "navigation_btn btn">登入/註冊</button>
+      <div class = "navigation-inner">
+        <h2 class = "navigation-title">台北一日遊</h2>
+        <div class = "navigation-right">
+          <button class = "navigation-btn btn">預定行程</button>
+          <button class = "navigation-btn btn">登入/註冊</button>
         </div>
       </div>
     </nav>
   <!-- hero -->
     <section class = "hero">
-      <img src ="/static/images/welcome.png" class="hero_img"> 
-      <div class = "hero_inner">
-        <div class = "hero_text">
-          <h1 class = "hero_title">輕鬆享受台北一日悠閒</h1>
-          <p class = "hero_slogan body-bold">探索每個角落，體驗城市的深度旅遊行程</p>
+      <img src ="/static/images/welcome.png" class="hero-img"> 
+      <div class = "hero-inner">
+        <div class = "hero-text">
+          <h1 class = "hero-title">輕鬆享受台北一日悠閒</h1>
+          <p class = "body-bold hero-slogan">探索每個角落，體驗城市的深度旅遊行程</p>
           <div class = "search-area">
             <div class = "search-bar-row">
-              <button class="body-med search-selector btn ">全部分類 ▼</button>
-              <input class= "body-bold search-bar" type = "text" placeholder= "輸入景點名稱查詢">
-              <button class = "search-btn btn">
-                <img src = "/static/images/icon_search.png" class = "search-btn-image">
-              </button>
+              <button id = "category-btn" class="body-med search-selector btn ">全部分類 ▼</button>
+              <form id = "search-form" class = "search-form">
+                <input class= "body-bold search-bar" type = "text" placeholder= "輸入景點名稱查詢">
+                <button trpe = "submit "class = "search-btn btn">
+                  <img src = "/static/images/icon_search.png" class = "search-btn-image">
+                </button>
+              </form>
             </div>
             <div id = "categoryPopup" class = "category-popup is-hidden"></div> <!-- is-hidden = 預設隱藏 -->
           </div>
@@ -58,7 +60,7 @@
 
   <!-- footer -->
   <footer>
-    <p class="footer_text body-bold">COPYRIGHT © 2021 台北一日遊</p>
+    <p class="footer-text body-bold">COPYRIGHT © 2021 台北一日遊</p>
   </footer>
   <script src = "/static/js/index.js"></script>
 </body>
