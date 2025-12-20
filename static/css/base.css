@@ -1,0 +1,122 @@
+@charset "UTF-8";
+
+* {
+  margin :0;
+  padding :0;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+
+.btn{
+  cursor: pointer;
+}
+.btn:hover{
+  opacity: 0.7;
+}
+
+button, input {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  outline: none;
+  font: inherit;
+  line-height: normal;
+}
+
+h1{
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+h2{
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 34px;
+  letter-spacing: 0;
+}
+
+h3{
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 24px;
+  letter-spacing: 0%;
+}
+
+.body-bold{
+  font-weight:700;
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.body-med{
+  font-weight:500;
+  font-size: 16px;
+  line-height: 13.3px;
+  letter-spacing: 0%;
+}
+
+.content-reg{
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0%;
+}
+
+.button-reg{
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 16px;
+  letter-spacing: 0%;
+}
+
+.navigation{
+  width: 100%;
+}
+
+.navigation-inner{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navigation-title{
+  flex: 0 0 auto;
+  color: #448899;
+}
+
+.navigation-right{
+  display: flex;
+  gap: 10px;
+}
+
+.navigation-btn{
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1;
+  color: #666666;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+footer {
+  flex-shrink: 0;
+  background-color: #757575;
+  height: 104px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#footer-sentinel {
+  height: 10px; 
+  width: 100%; 
+  margin-top: 10px; 
+  }

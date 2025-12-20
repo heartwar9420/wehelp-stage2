@@ -1,0 +1,234 @@
+@charset "UTF-8";
+/* hero */
+.hero{
+  height: 320px;
+  position: relative; /* 相對定位 , 為了讓子元素可以用 absolute */
+  z-index: 1;
+}
+
+.hero-img {
+  object-fit: cover; /* 讓圖片填滿容器且不變形 但需要知道容器的大小*/
+  width: 100%; /*給object-fit 一個明確的容器大小 */
+  height: 100%; /*給object-fit 一個明確的容器大小 */
+  object-position: center top; /* 通常會和 object-fit 同時使用 , 預設是 center center 全部置中 */
+  /* 也可以寫object-position: 50% 50% = 等於 center center */
+  position: absolute; /* 絕對定位 不會佔據html中的空間 */
+  z-index: 0;
+}
+
+.hero-inner{
+  max-width: 1200px;
+  height:100%;
+  margin: 0 auto; /*上下 = 0 , 左右 = 自動分完 = 置中  */
+  padding: 0 20px; /* 上下 , 左右 */
+  display:flex;
+  align-items: center; /* 垂直置中 */
+}
+
+.hero-text{
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  top: 0; /* 距離上面 0 像素 */
+  left: 0; /* 距離左邊 0 像素 */
+  /* 這兩行合在一起 就是 對齊左上角*/
+}
+
+.hero-title {
+  margin-bottom: 15px;
+  color: #FFFFFF;
+}
+
+.hero-slogan{
+  margin-bottom: 25px;
+  color: #FFFFFF;
+}
+
+.search-area{
+  max-width:460px ;
+  width: 100%;
+  display: flex;
+}
+
+.search-bar-row{
+  display:flex;
+  width: 100%;
+  max-width: 460px;
+  max-height: 46px;
+  overflow: hidden;  /* 把超出的部分隱藏起來 */
+  flex-wrap: nowrap; /* 元素禁止換行 */
+  border-radius: 5px; 
+  background-color: #FFFFFF;
+  margin-bottom: 5px;
+}
+
+.search-selector{
+  width: 100px;
+  padding: 16px 8px;
+  background-color: #EEEEEE;
+  color :#000000;
+  white-space: nowrap; /* 文字禁止換行 */
+}
+
+.search-form{
+  display : flex;
+  width: 100%;
+}
+
+.search-bar{
+  flex: 1; /* 會改變寬度自動伸展, 把剩餘空間吃掉 */
+  min-width: 0;
+  margin-left: 15px;
+  color: #757575;
+}
+
+.search-btn{
+  padding: 8px 15px;
+  background-color: #448899;
+}
+
+.search-btn-image{
+  width: 30px;
+  height: 30px;
+}
+
+.is-hidden{
+  display:none;
+}
+
+.category-popup{
+  position: absolute;
+  width: 300px;
+  height: 160px;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  background-color: white;
+  box-shadow: 0px 4px 20px rgba(255, 255, 255, 1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.category-item{
+  width: 100px;
+  height: 40px;
+  background-color: #FFFFFF;
+  padding :10px 0px;
+  color:rgba(0, 0, 0, 1);
+}
+
+.category-item:hover {
+  background-color: #e6dede;
+}
+
+.category-list-med{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+
+/* attraction-mrt-list */
+/* mrt-list-bar */
+
+.mrt-list-bar{
+  max-width: 1200px;
+  margin: 35px auto 20px;
+  padding: 0 20px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mrt-list-container {
+  display: flex;
+  align-items: center;
+  overflow-x: hidden;     /* 把按鈕中沒輪到顯示的部分隱藏起來 並且取消拖動軸 */
+  white-space: nowrap;    /* 強制文字 不換行 */
+}
+
+.mrtsbtn {
+  padding: 0px 15px;
+  color:rgba(102, 102, 102, 1);
+}
+
+.mrtsbtn:hover{
+  color: #918484;
+}
+
+.mrt-list-left-button{
+  padding: 9px 0px 9px 10px;
+}
+
+.mrt-list-right-button{
+  padding: 9px 15px 9px 0px;
+}
+
+.mrt-list-btn-image{
+  width:32px;
+  height: 32px;
+}
+
+/* attraction */
+
+.attraction-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 不論多寛 分成 4 * 1 份 */
+  gap: 30px;
+  padding: 15px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.attraction-card{
+  border:2px #E8E8E8 solid;
+  border-radius: 5px;
+}
+
+.attractions-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+
+.attractions-image-name {
+  position: absolute;
+  bottom: 0; 
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 10px;
+  z-index: 10;
+}
+
+.attractions-info{
+  display: flex;
+  justify-content: space-between;
+  padding:10px;
+  color:#757575;
+}
+
+.attractions-image img {
+  width: 100%;
+  height: 100%; 
+  border-radius: 5px;
+  object-fit: cover; 
+  display: block;
+}
+
+@media (max-width: 1250px){
+.attraction-list {
+  grid-template-columns: repeat(2, 1fr);
+}
+}
+
+@media (max-width: 600px){
+.attraction-list {
+  grid-template-columns: repeat(1, 1fr);
+}
+}
