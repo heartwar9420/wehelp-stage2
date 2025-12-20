@@ -20,30 +20,87 @@
             <button class="nav__btn btn">登入/註冊</button>
           </div>
         </div>
+        <hr class="attraction__separator" />
       </nav>
-      <!--  -->
-      <section class="attraction-section">
-        <div class="attraction-images-content">
-          <button class="attraction-left-button">
+      <!-- attraction section -->
+      <!-- gallery -->
+      <section class="attraction">
+        <div class="attraction__gallery">
+          <button class="btn attraction__nav-btn attraction__nav-btn--left">
             <img
-              src="/static/images/left-button.png"
-              class="attraction-left-button-image btn"
+              src="/static/images/attraction__nav-btn--left.png"
+              class="attraction__nav-icon"
             />
           </button>
-          <img src="${imageUrl}" class="attraction-image" />
-          <button class="attraction-left-button">
+          <img
+            src="/static/images/test_attractions_image.jpg"
+            class="attraction__image"
+          />
+          <button class="btn attraction__nav-btn attraction__nav-btn--right">
             <img
-              src="/static/images/right-button.png"
-              class="attraction-right-button-image btn"
+              src="/static/images/attraction__nav-btn--right.png"
+              class="attraction__nav-icon"
             />
           </button>
+          <div class="attraction__indicator-bar">未做</div>
         </div>
-        <div class="attraction-text-content">
-          <h3 class="attraction-title"></h3>
-          <div class="body-med attraction-"
+        <!-- attraction__side-panel -->
+        <div class="attraction__side-panel">
+          <div class="attraction__header">
+            <h3 class="attraction__title">平安鐘</h3>
+            <p class="body-med attraction__subtitle">公共藝術 at 忠孝復興</p>
+          </div>
+          <div class="booking">
+            <p class="body-bold booking__title">訂購導覽行程</p>
+            <p class="body-med booking__subtitle">
+              以此景點為中心的一日行程，帶您探索城市角落故事
+            </p>
+            <div class="booking__field">
+              <span class="body-bold booking__label">選擇日期：</span>
+              <input type="date" class="body-med booking__fielddate" />
+            </div>
+            <div class="booking__field">
+              <span class="body-bold booking__label">選擇時間：</span>
+              <label class="body-med booking__radio-label">
+                <input
+                  type="radio"
+                  name="time"
+                  value="morning"
+                  class="body-med booking__radio-input"
+                />
+                上半天
+              </label>
+              <label class="body-med booking__radio-label">
+                <input
+                  type="radio"
+                  name="time"
+                  value="afternoon"
+                  class="booking__radio-input"
+                />
+                下半天
+              </label>
+            </div>
+            <div class="booking__field--price">
+              <span class="body-med booking__label">導覽費用：</span>
+              <span class="body-med booking__price">新台幣 2000 元</span>
+            </div>
+            <button
+              type="button"
+              id="bookingBtn"
+              class="btn button-reg booking__btn"
+            >
+              開始預訂行程
+            </button>
+          </div>
         </div>
       </section>
+      <hr class="info__separator" />
+      <!-- info -->
     </main>
+    <!-- footer -->
+    <footer>
+      <p class="footer-text body-bold">COPYRIGHT © 2021 台北一日遊</p>
+    </footer>
     <script src="/static/js/attraction.js"></script>
   </body>
 </html>

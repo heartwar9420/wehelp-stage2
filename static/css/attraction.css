@@ -1,6 +1,123 @@
-.attraction-section {
-  background-color: red;
+.attraction__separator {
+  margin-bottom: 40px;
+}
+
+.attraction {
   width: 1200px;
   height: 400px;
   margin: 0 auto;
+  display: flex;
+}
+
+.attraction__gallery {
+  position: relative;
+}
+
+.attraction__indicator-bar {
+  position: absolute;
+  bottom: 0px;
+  left: 270px;
+  background-color: red;
+}
+
+.attraction__nav-btn {
+  position: absolute;
+  margin: 182px 10px;
+  opacity: 0.7;
+}
+
+.attraction__nav-btn:hover {
+  opacity: 1;
+}
+
+.attraction__nav-btn--right {
+  right: 0;
+}
+
+.attraction__nav-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.attraction__image {
+  width: 540px;
+  height: 400px;
+  border-radius: 5px;
+}
+
+.attraction__side-panel {
+  height: 400px;
+  width: 600px;
+  margin: 0px 30px;
+}
+
+.attraction__title {
+  color: #666666;
+  margin-bottom: 25px;
+}
+
+.attraction__subtitle {
+  color: #666666;
+  margin-bottom: 25px;
+}
+
+.booking {
+  background-color: #e8e8e8;
+  height: 272px;
+  width: 560px;
+  border-radius: 5px;
+  padding: 15px 20px;
+}
+
+.booking__field,
+.booking__title,
+.booking__subtitle {
+  margin-bottom: 20px;
+}
+
+.booking__title,
+.booking__subtitle,
+.booking__label,
+.booking__price,
+.booking__radio-label {
+  color: #666666;
+}
+
+.booking__field {
+  display: flex;
+}
+
+.booking__fielddate {
+  background-color: #ffffff;
+}
+
+.booking__radio-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.booking__radio-input {
+  width: 18px;
+  height: 18px;
+  accent-color: #448899;
+  cursor: pointer;
+}
+
+.booking__field--price {
+  margin-bottom: 30px;
+}
+
+.booking__btn {
+  background-color: #448899;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #ffffff;
+}
+
+.info__separator {
+  width: 1200px;
+  margin: 40px auto;
 }

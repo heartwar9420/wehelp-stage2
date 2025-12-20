@@ -24,6 +24,11 @@ input {
   line-height: normal;
 }
 
+hr {
+  border: none; /* 先去掉預設的立體邊框 */
+  border-top: 1px solid rgba(232, 232, 232, 1); /* 只給頂部加上紅色的實線 */
+}
+
 h1 {
   font-weight: 700;
   font-size: 28px;
@@ -117,7 +122,7 @@ footer {
 }
 
 #footer-sentinel {
-  height: 10px;
+  height: 1px;
   width: 100%;
-  margin-top: 10px;
+  margin-top: 39px;
 }
