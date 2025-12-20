@@ -4,8 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attraction</title>
+  <link rel="stylesheet" href="/static/css/base.css" /> 
+  <link rel="icon" href="data:,"> <!-- 為了不要一直顯示favicon.ico 404 寫了這個 意思是給他一個空的 就不會一直跳了-->
 </head>
 <body>
-  
+  <main>
+    <!-- navigation -->
+    <nav class = "navigation">
+      <div class = "navigation-inner">
+        <h2 class = "navigation-title">台北一日遊</h2>
+        <div class = "navigation-right">
+          <button class = "navigation-btn btn">預定行程</button>
+          <button class = "navigation-btn btn">登入/註冊</button>
+        </div>
+      </div>
+    </nav>
+    <!--  -->
+    <section class="attraction-section" style="background-color: red;width: 1200px; height: 400px;">
+      <div class = "attraction-images"></div>
+    </section>
+  </main> 
+<script src = "/static/js/attraction.js"></script>
 </body>
 </html>

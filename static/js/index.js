@@ -264,10 +264,12 @@ async function api_attractions(page,keyword = "",category = "") {
             
             // 動態生成 html
             attraction_card.innerHTML = `
+            <a href = "/attraction/${attraction.id}">
                 <div class="attractions-image">
                     <img src="${imageUrl}">
                     <div class="attractions-image-name">${attraction.name}</div>
                 </div>
+            </a>
                 <div class="attractions-info">
                     <div class="body-med attractions-mrt-name ">${attraction.mrt || ""}</div>
                     <div class="body-med attractions-category-name ">${attraction.category}</div>
