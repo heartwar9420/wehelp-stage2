@@ -1,29 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attraction</title>
-  <link rel="stylesheet" href="/static/css/base.css" /> 
-  <link rel="icon" href="data:,"> <!-- 為了不要一直顯示favicon.ico 404 寫了這個 意思是給他一個空的 就不會一直跳了-->
-</head>
-<body>
-  <main>
-    <!-- navigation -->
-    <nav class = "navigation">
-      <div class = "navigation-inner">
-        <h2 class = "navigation-title">台北一日遊</h2>
-        <div class = "navigation-right">
-          <button class = "navigation-btn btn">預定行程</button>
-          <button class = "navigation-btn btn">登入/註冊</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attraction</title>
+    <link rel="stylesheet" href="/static/css/base.css" />
+    <link rel="stylesheet" href="/static/css/attraction.css" />
+    <link rel="icon" href="data:," />
+    <!-- 為了不要一直顯示favicon.ico 404 寫了這個 意思是給他一個空的 就不會一直跳了-->
+  </head>
+  <body>
+    <main>
+      <!-- navigation -->
+      <nav class="nav">
+        <div class="nav__container">
+          <h2 class="nav__title">台北一日遊</h2>
+          <div class="nav__menu">
+            <button class="nav__btn btn">預定行程</button>
+            <button class="nav__btn btn">登入/註冊</button>
+          </div>
         </div>
-      </div>
-    </nav>
-    <!--  -->
-    <section class="attraction-section" style="background-color: red;width: 1200px; height: 400px;">
-      <div class = "attraction-images"></div>
-    </section>
-  </main> 
-<script src = "/static/js/attraction.js"></script>
-</body>
+      </nav>
+      <!--  -->
+      <section class="attraction-section">
+        <div class="attraction-images-content">
+          <button class="attraction-left-button">
+            <img
+              src="/static/images/left-button.png"
+              class="attraction-left-button-image btn"
+            />
+          </button>
+          <img src="${imageUrl}" class="attraction-image" />
+          <button class="attraction-left-button">
+            <img
+              src="/static/images/right-button.png"
+              class="attraction-right-button-image btn"
+            />
+          </button>
+        </div>
+        <div class="attraction-text-content">
+          <h3 class="attraction-title"></h3>
+          <div class="body-med attraction-"
+        </div>
+      </section>
+    </main>
+    <script src="/static/js/attraction.js"></script>
+  </body>
 </html>

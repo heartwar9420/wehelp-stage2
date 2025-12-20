@@ -1,68 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Index</title>
-  <link rel="stylesheet" href="/static/css/base.css" /> 
-  <link rel="stylesheet" href="/static/css/index.css" /> 
-  <link rel="icon" href="data:,"> <!-- 為了不要一直顯示favicon.ico 404 寫了這個 意思是給他一個空的 就不會一直跳了-->
-</head> 
-<body>
-  <main>
-    <!-- navigation -->
-    <nav class = "navigation">
-      <div class = "navigation-inner">
-        <h2 class = "navigation-title">台北一日遊</h2>
-        <div class = "navigation-right">
-          <button class = "navigation-btn btn">預定行程</button>
-          <button class = "navigation-btn btn">登入/註冊</button>
-        </div>
-      </div>
-    </nav>
-  <!-- hero -->
-    <section class = "hero">
-      <img src ="/static/images/welcome.png" class="hero-img"> 
-      <div class = "hero-inner">
-        <div class = "hero-text">
-          <h1 class = "hero-title">輕鬆享受台北一日悠閒</h1>
-          <p class = "body-bold hero-slogan">探索每個角落，體驗城市的深度旅遊行程</p>
-          <div class = "search-area">
-            <div class = "search-bar-row">
-              <button id = "category-btn" class="body-med search-selector btn ">全部分類 ▼</button>
-              <form id = "search-form" class = "search-form">
-                <input class= "body-bold search-bar" type = "text" placeholder= "輸入景點名稱查詢">
-                <button trpe = "submit "class = "search-btn btn">
-                  <img src = "/static/images/icon_search.png" class = "search-btn-image">
-                </button>
-              </form>
-            </div>
-            <div id = "categoryPopup" class = "category-popup is-hidden"></div> <!-- is-hidden = 預設隱藏 -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index</title>
+    <link rel="stylesheet" href="/static/css/base.css" />
+    <link rel="stylesheet" href="/static/css/index.css" />
+    <link rel="icon" href="data:," />
+    <!-- 為了不要一直顯示favicon.ico 404 寫了這個 意思是給他一個空的 就不會一直跳了-->
+  </head>
+  <body>
+    <main>
+      <!-- navigation -->
+      <nav class="nav">
+        <div class="nav__container">
+          <h2 class="nav__title">台北一日遊</h2>
+          <div class="nav__menu">
+            <button class="nav__btn btn">預定行程</button>
+            <button class="nav__btn btn">登入/註冊</button>
           </div>
         </div>
-      </div>
-    </section>
-  <!-- attraction -->
-    <section class="attraction">
-      <div class = "mrt-list-bar">
-        <button class="mrt-list-left-button">
-          <img src = "/static/images/left-button.png" class = "mrt-list-btn-image btn">
-        </button>
-        <div id = "mrtslistMenu" class = "mrt-list-container body-med">
+      </nav>
+      <!-- hero -->
+      <section class="hero">
+        <img src="/static/images/welcome.png" class="hero-img" />
+        <div class="hero-inner">
+          <div class="hero-text">
+            <h1 class="hero-title">輕鬆享受台北一日悠閒</h1>
+            <p class="body-bold hero-slogan">
+              探索每個角落，體驗城市的深度旅遊行程
+            </p>
+            <div class="search-area">
+              <div class="search-bar-row">
+                <button id="category-btn" class="body-med search-selector btn">
+                  全部分類 ▼
+                </button>
+                <form id="search-form" class="search-form">
+                  <input
+                    class="body-bold search-bar"
+                    type="text"
+                    placeholder="輸入景點名稱查詢"
+                  />
+                  <button trpe="submit " class="search-btn btn">
+                    <img
+                      src="/static/images/icon_search.png"
+                      class="search-btn-image"
+                    />
+                  </button>
+                </form>
+              </div>
+              <div id="categoryPopup" class="category-popup is-hidden"></div>
+              <!-- is-hidden = 預設隱藏 -->
+            </div>
+          </div>
         </div>
-        <button class="mrt-list-right-button">
-          <img src = "/static/images/right-button.png" class = "mrt-list-btn-image btn">
-        </button>
-      </div>
-      <div class = "attraction-list"></div>
-      <div id="footer-sentinel"></div>
-    </section>
-  </main>
+      </section>
+      <!-- attraction -->
+      <section class="attraction">
+        <div class="mrt-list-bar">
+          <button class="mrt-list-left-button">
+            <img
+              src="/static/images/left-button.png"
+              class="mrt-list-btn-image btn"
+            />
+          </button>
+          <div id="mrtslistMenu" class="mrt-list-container body-med"></div>
+          <button class="mrt-list-right-button">
+            <img
+              src="/static/images/right-button.png"
+              class="mrt-list-btn-image btn"
+            />
+          </button>
+        </div>
+        <div class="attraction-list"></div>
+        <div id="footer-sentinel"></div>
+      </section>
+    </main>
 
-  <!-- footer -->
-  <footer>
-    <p class="footer-text body-bold">COPYRIGHT © 2021 台北一日遊</p>
-  </footer>
-  <script src = "/static/js/index.js"></script>
-</body>
+    <!-- footer -->
+    <footer>
+      <p class="footer-text body-bold">COPYRIGHT © 2021 台北一日遊</p>
+    </footer>
+    <script src="/static/js/index.js"></script>
+  </body>
 </html>
