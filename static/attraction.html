@@ -14,7 +14,9 @@
       <!-- navigation -->
       <nav class="nav">
         <div class="nav__container">
-          <h2 class="nav__title">台北一日遊</h2>
+          <button onclick="window.location.href='/'" class="h2 btn nav__title">
+            台北一日遊
+          </button>
           <div class="nav__menu">
             <button class="nav__btn btn">預定行程</button>
             <button class="nav__btn btn">登入/註冊</button>
@@ -32,23 +34,20 @@
               class="attraction__nav-icon"
             />
           </button>
-          <img
-            src="/static/images/test_attractions_image.jpg"
-            class="attraction__image"
-          />
+          <img class="attraction__image" />
           <button class="btn attraction__nav-btn attraction__nav-btn--right">
             <img
               src="/static/images/attraction__nav-btn--right.png"
               class="attraction__nav-icon"
             />
           </button>
-          <div class="attraction__indicator-bar">未做</div>
+          <div class="attraction__indicator-bar"></div>
         </div>
         <!-- attraction__side-panel -->
         <div class="attraction__side-panel">
           <div class="attraction__header">
-            <h3 class="attraction__title">平安鐘</h3>
-            <p class="body-med attraction__subtitle">公共藝術 at 忠孝復興</p>
+            <h3 class="attraction__title"></h3>
+            <p class="body-med attraction__subtitle"></p>
           </div>
           <div class="booking">
             <p class="body-bold booking__title">訂購導覽行程</p>
@@ -75,14 +74,14 @@
                   type="radio"
                   name="time"
                   value="afternoon"
-                  class="booking__radio-input"
+                  class="body-med booking__radio-input"
                 />
                 下半天
               </label>
             </div>
             <div class="booking__field--price">
               <span class="body-med booking__label">導覽費用：</span>
-              <span class="body-med booking__price">新台幣 2000 元</span>
+              <span class="body-med booking__price"></span>
             </div>
             <button
               type="button"
@@ -96,6 +95,13 @@
       </section>
       <hr class="info__separator" />
       <!-- info -->
+      <section class="info">
+        <div class="content-reg info__content"></div>
+        <div class="body-bold info__title">景點地址</div>
+        <div class="content-reg info__location"></div>
+        <div class="body-bold info__title">交通方式：</div>
+        <div class="content-reg info__transport"></div>
+      </section>
     </main>
     <!-- footer -->
     <footer>

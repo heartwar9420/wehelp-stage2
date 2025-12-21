@@ -15,14 +15,87 @@ async function fetch_attraction_data() {
     const json = await res.json();
     const data = json.data;
 
-    console.log(data);
+    const attractionImage = document.querySelector('.attraction__image');
+    let imageCount = 0;
 
-    console.log(data.images);
+    const attractionIndicatorBar = document.querySelector(
+      '.attraction__indicator-bar'
+    );
 
-    console.log(data.name);
+    function updateGallery() {
+      const allIndicator = document.querySelectorAll('.attraction__indicator');
+      allIndicator.forEach((Indicator) => {
+        Indicator.classList.remove('active');
+      });
+
+      allIndicator[imageCount].classList.add('active');
+
+      attractionImage.src = data.images[imageCount];
+    }
+
+    data.images.forEach((image, index) => {
+      const attractionIndicator = document.createElement('span');
+
+      attractionIndicator.className = 'attraction__indicator';
+      if (index === 0) {
+        attractionIndicator.classList.add('active');
+      }
+
+      attractionIndicatorBar.appendChild(attractionIndicator);
+    });
+
+    const attractionNavBtnLeft = document.querySelector(
+      '.attraction__nav-btn--left'
+    );
+    const attractionNavBtnRight = document.querySelector(
+      '.attraction__nav-btn--right'
+    );
+
+    attractionNavBtnLeft.addEventListener('click', () => {
+      if (imageCount > 0) {
+        imageCount -= 1;
+        updateGallery();
+      } else {
+        return;
+      }
+    });
+
+    attractionNavBtnRight.addEventListener('click', () => {
+      if (imageCount < data.images.length - 1) {
+        imageCount += 1;
+        updateGallery();
+      } else {
+        return;
+      }
+    });
+    updateGallery();
+    const attractionTitle = document.querySelector('.attraction__title');
+    attractionTitle.textContent = data.name;
+    const attractionSubtitle = document.querySelector('.attraction__subtitle');
+    attractionSubtitle.textContent = data.category + ' at ' + data.mrt;
+    const infoContent = document.querySelector('.info__content');
+    infoContent.textContent = data.description;
+    const infoLocation = document.querySelector('.info__location');
+    infoLocation.textContent = data.address;
+    const infoTransport = document.querySelector('.info__transport');
+    infoTransport.textContent = data.transport;
   } catch (err) {
     console.error('發生錯誤：', err);
   }
 }
+
+const radioInputs = document.querySelectorAll('input[name="time"]');
+const bookingPrice = document.querySelector('.booking__price');
+
+radioInputs.forEach((input) => {
+  input.addEventListener('change', () => {
+    // change = 被勾選了
+    if (input.value === 'morning') {
+      bookingPrice.textContent = '新台幣 2000 元';
+    } else {
+      bookingPrice.textContent = '新台幣 2500 元';
+    }
+  });
+});
 
 fetch_attraction_data();

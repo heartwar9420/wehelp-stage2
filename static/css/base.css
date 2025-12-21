@@ -43,6 +43,13 @@ h2 {
   letter-spacing: 0;
 }
 
+.h2 {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 34px;
+  letter-spacing: 0;
+}
+
 h3 {
   font-weight: 700;
   font-size: 24px;
@@ -60,14 +67,14 @@ h3 {
 .body-med {
   font-weight: 500;
   font-size: 16px;
-  line-height: 13.3px;
+  line-height: 22px;
   letter-spacing: 0%;
 }
 
 .content-reg {
   font-size: 16px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 22px;
   letter-spacing: 0%;
 }
 
@@ -119,6 +126,10 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.footer-text {
+  color: #ffffff;
 }
 
 #footer-sentinel {
