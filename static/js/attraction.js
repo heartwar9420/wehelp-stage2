@@ -52,8 +52,11 @@ async function fetch_attraction_data() {
     );
 
     attractionNavBtnLeft.addEventListener('click', () => {
-      if (imageCount > 0) {
-        imageCount -= 1;
+      if (imageCount < data.images.length) {
+        if (imageCount === 0) {
+          imageCount = data.images.length;
+        }
+        imageCount = (imageCount - 1) % data.images.length;
         updateGallery();
       } else {
         return;
@@ -61,8 +64,8 @@ async function fetch_attraction_data() {
     });
 
     attractionNavBtnRight.addEventListener('click', () => {
-      if (imageCount < data.images.length - 1) {
-        imageCount += 1;
+      if (imageCount < data.images.length) {
+        imageCount = (imageCount + 1) % data.images.length;
         updateGallery();
       } else {
         return;

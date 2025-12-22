@@ -74,7 +74,7 @@ h3 {
 .content-reg {
   font-size: 16px;
   font-weight: 400;
-  line-height: 22px;
+  line-height: 28px;
   letter-spacing: 0%;
 }
 
@@ -84,6 +84,8 @@ h3 {
   line-height: 16px;
   letter-spacing: 0%;
 }
+
+/* nav */
 
 .nav {
   width: 100%;
@@ -119,6 +121,8 @@ h3 {
   cursor: pointer;
 }
 
+/* footer */
+
 footer {
   flex-shrink: 0;
   background-color: #757575;
@@ -136,4 +140,77 @@ footer {
   height: 1px;
   width: 100%;
   margin-top: 39px;
+}
+
+/* login btn */
+
+#loginDialog[open],
+#registerDialog[open] {
+  position: relative;
+  margin: 80px auto;
+  width: 340px;
+  border: 0;
+  border-top: 10px #448899 solid;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.register__title,
+.login__title {
+  color: #666666;
+  margin: 15px auto;
+}
+
+.register__input-area,
+.login__input-area {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 192px;
+}
+
+.register__input,
+.login__input {
+  color: #757575;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px #cccccc solid;
+  padding: 16.5px 15px;
+  width: 80%;
+}
+
+.register__btn,
+.login__btn {
+  background-color: #448899;
+  color: #ffffff;
+  padding: 15px 20px;
+  margin: 0 auto;
+  width: 90%;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.register__login-btn,
+.login__register-btn {
+  color: #666666;
+  margin-bottom: 16px;
+}
+
+.register__close-btn,
+.login__close-btn {
+  position: absolute;
+  right: 10px;
+  top: 20px;
+}
+
+.register__close--image,
+.login__close--image {
+  width: 16px;
+  height: 16px;
 }

@@ -64,7 +64,7 @@
 
 .search-selector {
   width: 100px;
-  padding: 16px 8px;
+  padding: 10px 8px;
   background-color: #eeeeee;
   color: #000000;
   white-space: nowrap; /* 文字禁止換行 */
@@ -80,11 +80,13 @@
   min-width: 0;
   margin-left: 15px;
   color: #757575;
+  width: 0;
 }
 
 .search-btn {
   padding: 8px 15px;
   background-color: #448899;
+  flex-shrink: 0;
 }
 
 .search-btn-image {
