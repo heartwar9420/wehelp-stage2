@@ -28,10 +28,9 @@
 
   /* 製作毛玻璃效果 */
   background-color: rgba(0, 0, 0, 0.4); /* 半透明黑色背景 */
-  backdrop-filter: blur(10px); /* 關鍵！讓背景模糊 */
+  backdrop-filter: blur(10px); /* 讓背景模糊 */
 }
 
-/* 這是每一顆點點的基本樣貌 */
 .attraction__indicator {
   flex: 1; /* 平均分配剩下的寛度 */
   height: 5px;
@@ -39,7 +38,7 @@
 }
 
 .attraction__indicator.active {
-  backdrop-filter: blur(10px); /* 關鍵！讓背景模糊 */
+  backdrop-filter: blur(10px); /*讓背景模糊 */
   background-color: #000000;
 }
 
@@ -148,7 +147,7 @@
 }
 
 .info__separator {
-  width: 1200px;
+  max-width: 1200px;
   margin: 40px auto;
 }
 
@@ -198,5 +197,13 @@
   }
   .info__separator {
     width: 90%;
+  }
+  .attraction__nav-btn--right {
+    right: 7%;
+  }
+}
+@media (max-width: 360px) {
+  .attraction__side-panel {
+    min-width: 250px;
   }
 }

@@ -142,7 +142,7 @@ footer {
   margin-top: 39px;
 }
 
-/* login btn */
+/* login register btn */
 
 #loginDialog[open],
 #registerDialog[open] {
@@ -157,7 +157,7 @@ footer {
 }
 
 dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .register__title,

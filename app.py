@@ -2,80 +2,94 @@ from fastapi import *
 from fastapi.responses import FileResponse
 import mysql.connector
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 con = mysql.connector.connect(
-    user = "app_user",
-    password = "12345678",
-    host = "localhost",
-    database = "taipei_day_trip",
-    use_pure=True
+    user="app_user",
+    password="12345678",
+    host="localhost",
+    database="taipei_day_trip",
+    use_pure=True,
 )
 print("database ready")
+
 
 # Static Pages (Never Modify Code in this Block)
 @app.get("/", include_in_schema=False)
 async def index(request: Request):
-	return FileResponse("./static/index.html", media_type="text/html")
+    return FileResponse("./static/index.html", media_type="text/html")
+
+
 @app.get("/attraction/{id}", include_in_schema=False)
 async def attraction(request: Request, id: int):
-	return FileResponse("./static/attraction.html", media_type="text/html")
+    return FileResponse("./static/attraction.html", media_type="text/html")
+
+
 @app.get("/booking", include_in_schema=False)
 async def booking(request: Request):
-	return FileResponse("./static/booking.html", media_type="text/html")
+    return FileResponse("./static/booking.html", media_type="text/html")
+
+
 @app.get("/thankyou", include_in_schema=False)
 async def thankyou(request: Request):
-	return FileResponse("./static/thankyou.html", media_type="text/html")
+    return FileResponse("./static/thankyou.html", media_type="text/html")
+
 
 # 定義 /api/attractions API:
 @app.get("/api/attractions")
 async def get_attractions(
-    page : int = Query(...,ge=0), # query (...) 代表必填 , ge = 0 也就是 大於等於 0 
-	keyword: str = Query(None),
-	category: str = Query(None)
+    page: int = Query(..., ge=0),  # query (...) 代表必填 , ge = 0 也就是 大於等於 0
+    keyword: str = Query(None),
+    category: str = Query(None),
 ):
     try:
-        offset = page * 8 # 計算從第幾筆資料開始抓
+        offset = page * 8  # 計算從第幾筆資料開始抓
         base_sql = """
         SELECT id,name,category,description,address,transport,mrt,lat,lng
         FROM attractions 
         """
-        parameter_list = [] # 在 SQL 中的 %s 要放什麼值
-        condition_list = [] # 在 SQL 中要怎麼寫
+        parameter_list = []  # 在 SQL 中的 %s 要放什麼值
+        condition_list = []  # 在 SQL 中要怎麼寫
 
         if category != None:
             condition_list.append("category = %s")
             parameter_list.append(category)
 
         if keyword != None:
-            condition_list.append("(name LIKE %s OR mrt = %s)") # LIKE %台北% 這是 SQL 的模糊搜尋格式
-            parameter_list.append(f"%{keyword}%") # 用 f-string 把 keyword 放到 % % 中
+            condition_list.append(
+                "(name LIKE %s OR mrt = %s)"
+            )  # LIKE %台北% 這是 SQL 的模糊搜尋格式
+            parameter_list.append(f"%{keyword}%")  # 用 f-string 把 keyword 放到 % % 中
             parameter_list.append(keyword)
 
         if condition_list:
-            where_sql = " WHERE " + (" AND ".join(condition_list)) # 把 condition_list 中 的字串用 AND 串起來
+            where_sql = " WHERE " + (
+                " AND ".join(condition_list)
+            )  # 把 condition_list 中 的字串用 AND 串起來
             result_sql = base_sql + where_sql
 
-        else :
+        else:
             result_sql = base_sql
 
         result_sql = result_sql + " LIMIT 9 OFFSET %s "
         parameter_list.append(offset)
         cursor = con.cursor()
-        cursor.execute(result_sql,parameter_list) # 使用參數化查詢執行 SQL，讓參數安全地替換到 %s 位置
-        rows = cursor.fetchall() # rows = 所有抓到的資料
-        if len(rows) == 0: # 如果沒有抓到任何一筆資料的話
+        cursor.execute(
+            result_sql, parameter_list
+        )  # 使用參數化查詢執行 SQL，讓參數安全地替換到 %s 位置
+        rows = cursor.fetchall()  # rows = 所有抓到的資料
+        if len(rows) == 0:  # 如果沒有抓到任何一筆資料的話
             cursor.close()
-            return {"nextPage":None,
-                    "data":[]}
-        else :
+            return {"nextPage": None, "data": []}
+        else:
             if len(rows) == 9:
                 next_page = page + 1
-            else :
+            else:
                 next_page = None
             page_rows = rows[:8]
-            attraction_ids = [row[0]for row in page_rows] 
+            attraction_ids = [row[0] for row in page_rows]
             # 上面這一行 = attraction_id = []
             # for row in rows:
             # attraction_ids.append(row[0])
@@ -93,111 +107,202 @@ async def get_attractions(
     FROM images
     WHERE attraction_id IN ({placeholders})
     """
-            cursor.execute(images_sql,attraction_ids)
+            cursor.execute(images_sql, attraction_ids)
             image_rows = cursor.fetchall()
             images_dict = {}
             for image_row in image_rows:
                 att_id = image_row[0]
                 img = image_row[1]
-                if att_id not in images_dict: # 先建立一個list
+                if att_id not in images_dict:  # 先建立一個list
                     images_dict[att_id] = []
-                images_dict[att_id].append(img) # 再把資料append進去，不然會報錯
-        result_list =[]
+                images_dict[att_id].append(img)  # 再把資料append進去，不然會報錯
+        result_list = []
         for row in page_rows:
             # dict.get(key, default)
-            images = images_dict.get(row[0],[]) # 從 images_dict 取出圖片清單，如果沒有這個 key(也就是如果沒有圖片的話) 就回傳 [] (default)
+            images = images_dict.get(
+                row[0], []
+            )  # 從 images_dict 取出圖片清單，如果沒有這個 key(也就是如果沒有圖片的話) 就回傳 [] (default)
             attraction = {
-                "id":row[0],
-                "name":row[1],
-                "category":row[2],
-                "description":row[3],
-                "address":row[4],
-                "transport":row[5],
-                "mrt":row[6],
-                "lat":row[7],
-                "lng":row[8],
-                "images":images
+                "id": row[0],
+                "name": row[1],
+                "category": row[2],
+                "description": row[3],
+                "address": row[4],
+                "transport": row[5],
+                "mrt": row[6],
+                "lat": row[7],
+                "lng": row[8],
+                "images": images,
             }
             result_list.append(attraction)
-                
-        cursor.close()
-        return {"nextPage":next_page,
-                "data":result_list}
+        return {"nextPage": next_page, "data": result_list}
     except Exception as e:
         print("API /api/attractions error:", e)
-    return {
-        "error": True,
-        "message": "伺服器內部錯誤"
-    }
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+    finally:
+        cursor.close()
+
 
 @app.get("/api/attraction/{id}")
-async def get_single_attraction(id : int):
+async def get_single_attraction(id: int):
     base_sql = "SELECT id,name,category,description,address,transport,mrt,lat,lng FROM attractions WHERE id = %s"
     try:
         cursor = con.cursor()
-        cursor.execute(base_sql, (id,)) # execute 的第二個參數一定要是「列表或 tuple」，不能只給一個值
-                                        # (id,) 是一個只有一個元素的 tuple，所以要加逗號
+        cursor.execute(
+            base_sql, (id,)
+        )  # execute 的第二個參數一定要是「列表或 tuple」，不能只給一個值
+        # (id,) 是一個只有一個元素的 tuple，所以要加逗號
         row = cursor.fetchone()
         if row is None:
-            return{
-                "error":True,
-                "message":"景點不存在"
-            }
+            return JSONResponse(
+                status_code=400, content={"error": True, "message": "景點不存在"}
+            )
         attraction_id = row[0]
         images_sql = "SELECT image_url FROM images WHERE attraction_id = %s"
-        cursor.execute(images_sql,(attraction_id,))
+        cursor.execute(images_sql, (attraction_id,))
         image_rows = cursor.fetchall()
 
         image_list = []
         for image_row in image_rows:
             image_list.append(image_row[0])
         attraction_data = {
-            "id":row[0],
-            "name":row[1],
-            "category":row[2],
-            "description":row[3],
-            "address":row[4],
-            "transport":row[5],
-            "mrt":row[6],
-            "lat":row[7],
-            "lng":row[8],
-            "images":image_list
+            "id": row[0],
+            "name": row[1],
+            "category": row[2],
+            "description": row[3],
+            "address": row[4],
+            "transport": row[5],
+            "mrt": row[6],
+            "lat": row[7],
+            "lng": row[8],
+            "images": image_list,
         }
-        cursor.close()
-        return{
-            "data":attraction_data
-        }
+
+        return {"data": attraction_data}
     except Exception as e:
         print("API /api/attraction/{id} error:", e)
-        return {
-            "error": True,
-            "message": "伺服器內部錯誤"
-        }
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+    finally:
+        cursor.close()
+
 
 @app.get("/api/categories")
 async def get_categories():
-    cursor = con.cursor()
-    cursor.execute("SELECT DISTINCT category FROM attractions ORDER BY category ASC")
-    category_rows = cursor.fetchall()
-    category_list=[]
-    for category_row in category_rows:
-         category_list.append(category_row[0])
-    data = list(category_list)
-    cursor.close()
-    return{
-         "data":data
-    }
+    try:
+        cursor = con.cursor()
+        cursor.execute(
+            "SELECT DISTINCT category FROM attractions ORDER BY category ASC"
+        )
+        category_rows = cursor.fetchall()
+        category_list = []
+        for category_row in category_rows:
+            category_list.append(category_row[0])
+        data = list(category_list)
+        cursor.close()
+        return {"data": data}
+    except Exception as e:
+        print("API /api/attraction/{id} error:", e)
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+
 
 @app.get("/api/mrts")
 async def get_mrts():
-    cursor = con.cursor()
-    cursor.execute("SELECT DISTINCT mrt FROM attractions WHERE mrt IS NOT NULL ORDER BY mrt ASC")
-    mrt_rows = cursor.fetchall()
-    mrt_list=[]
-    for mrt_row in mrt_rows:
-        mrt_list.append(mrt_row[0])
-    data = list(mrt_list)
-    cursor.close()
-    return{
-         "data":data
-    }
+    try:
+        cursor = con.cursor()
+        cursor.execute(
+            "SELECT DISTINCT mrt FROM attractions WHERE mrt IS NOT NULL ORDER BY mrt ASC"
+        )
+        mrt_rows = cursor.fetchall()
+        mrt_list = []
+        for mrt_row in mrt_rows:
+            mrt_list.append(mrt_row[0])
+        data = list(mrt_list)
+        cursor.close()
+        return {"data": data}
+    except Exception as e:
+        print("API /api/attraction/{id} error:", e)
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+
+
+#  pydantic
+
+from pydantic import BaseModel
+
+
+# 這是最基礎的，登入只需要這兩個
+class MemberLogin(BaseModel):
+    email: str
+    password: str
+
+
+# 這是註冊，繼承上面的 email 和 password，再多加一個 name
+class MemberSignup(MemberLogin):
+    name: str
+
+
+# JWT
+import jwt
+from datetime import datetime, timedelta
+
+# 這是一把只有你的後端知道的「鑰匙」，用來簽署 Token
+# 實務上會放進環境變數，現在你可以先設定一個隨機字串
+SECRET_KEY = "your_super_secret_key"
+ALGORITHM = "HS256"
+
+
+@app.post("/api/user")
+async def signup(member_signup: MemberSignup):
+    member_email = member_signup.email
+    member_password = member_signup.password
+    member_name = member_signup.name
+
+    try:
+        cursor = con.cursor()
+        cursor.execute("SELECT id FROM member WHERE email=%s", [member_email])
+        result = cursor.fetchone()
+
+        if result:
+            return JSONResponse(
+                status_code=400, content={"error": True, "message": "重複的電子郵件"}
+            )
+        cursor.execute(
+            "INSERT INTO member(name, email, password) VALUES (%s,%s,%s)",
+            [member_name, member_email, member_password],
+        )
+
+        con.commit()
+
+        return {"ok": True}
+    except Exception as e:
+        print("API /api/user error:", e)
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+    finally:
+        cursor.close()
+
+
+@app.get("/api/user/auth")
+@app.put("/api/user/auth")
+async def login(member_login: MemberLogin):
+    member_email = member_login.email
+    member_password = member_login.password
+
+    try:
+        cursor = cursor()
+
+    except Exception as e:
+        print("API /api/member error:", e)
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+    finally:
+        cursor.close()
