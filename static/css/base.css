@@ -1,19 +1,20 @@
 @charset "UTF-8";
 
 * {
-  margin :0;
-  padding :0;
+  margin: 0;
+  padding: 0;
   font-family: 'Noto Sans TC', sans-serif;
 }
 
-.btn{
+.btn {
   cursor: pointer;
 }
-.btn:hover{
+.btn:hover {
   opacity: 0.7;
 }
 
-button, input {
+button,
+input {
   margin: 0;
   border: 0;
   padding: 0;
@@ -23,60 +24,74 @@ button, input {
   line-height: normal;
 }
 
-h1{
+hr {
+  border: none; /* 先去掉預設的立體邊框 */
+  border-top: 1px solid rgba(232, 232, 232, 1); /* 只給頂部加上紅色的實線 */
+}
+
+h1 {
   font-weight: 700;
   font-size: 28px;
   line-height: 1.2;
   letter-spacing: 0;
 }
 
-h2{
+h2 {
   font-weight: 700;
   font-size: 30px;
   line-height: 34px;
   letter-spacing: 0;
 }
 
-h3{
+.h2 {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 34px;
+  letter-spacing: 0;
+}
+
+h3 {
   font-weight: 700;
   font-size: 24px;
   line-height: 24px;
   letter-spacing: 0%;
 }
 
-.body-bold{
-  font-weight:700;
+.body-bold {
+  font-weight: 700;
   font-size: 16px;
   line-height: 1.4;
   letter-spacing: 0;
 }
 
-.body-med{
-  font-weight:500;
+.body-med {
+  font-weight: 500;
   font-size: 16px;
-  line-height: 13.3px;
+  line-height: 22px;
   letter-spacing: 0%;
 }
 
-.content-reg{
+.content-reg {
   font-size: 16px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 28px;
   letter-spacing: 0%;
 }
 
-.button-reg{
+.button-reg {
   font-weight: 400;
   font-size: 19px;
   line-height: 16px;
   letter-spacing: 0%;
 }
 
-.navigation{
+/* nav */
+
+.nav {
   width: 100%;
 }
 
-.navigation-inner{
+.nav__container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
@@ -86,17 +101,17 @@ h3{
   justify-content: space-between;
 }
 
-.navigation-title{
+.nav__title {
   flex: 0 0 auto;
   color: #448899;
 }
 
-.navigation-right{
+.nav__menu {
   display: flex;
   gap: 10px;
 }
 
-.navigation-btn{
+.nav__btn {
   font-weight: 500;
   font-size: 16px;
   line-height: 1;
@@ -105,6 +120,8 @@ h3{
   border: 0;
   cursor: pointer;
 }
+
+/* footer */
 
 footer {
   flex-shrink: 0;
@@ -115,8 +132,85 @@ footer {
   align-items: center;
 }
 
+.footer-text {
+  color: #ffffff;
+}
+
 #footer-sentinel {
-  height: 10px; 
-  width: 100%; 
-  margin-top: 10px; 
-  }
+  height: 1px;
+  width: 100%;
+  margin-top: 39px;
+}
+
+/* login register btn */
+
+#loginDialog[open],
+#registerDialog[open] {
+  position: relative;
+  margin: 80px auto;
+  width: 340px;
+  border: 0;
+  border-top: 10px #448899 solid;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.register__title,
+.login__title {
+  color: #666666;
+  margin: 15px auto;
+}
+
+.register__input-area,
+.login__input-area {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 192px;
+}
+
+.register__input,
+.login__input {
+  color: #757575;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px #cccccc solid;
+  padding: 16.5px 15px;
+  width: 80%;
+}
+
+.register__btn,
+.login__btn {
+  background-color: #448899;
+  color: #ffffff;
+  padding: 15px 20px;
+  margin: 0 auto;
+  width: 90%;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.register__login-btn,
+.login__register-btn {
+  color: #666666;
+  margin-bottom: 16px;
+}
+
+.register__close-btn,
+.login__close-btn {
+  position: absolute;
+  right: 10px;
+  top: 20px;
+}
+
+.register__close--image,
+.login__close--image {
+  width: 16px;
+  height: 16px;
+}

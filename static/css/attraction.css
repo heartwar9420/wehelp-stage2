@@ -1,0 +1,209 @@
+.attraction__separator {
+  margin-bottom: 40px;
+}
+
+.attraction {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+}
+
+.attraction__gallery {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  max-height: 400px;
+}
+
+.attraction__indicator-bar {
+  position: relative;
+  border-radius: 5px;
+  bottom: 9px;
+  width: 100%;
+  height: 5px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 10; /* 確保在圖片上面 */
+
+  /* 製作毛玻璃效果 */
+  background-color: rgba(0, 0, 0, 0.4); /* 半透明黑色背景 */
+  backdrop-filter: blur(10px); /* 讓背景模糊 */
+}
+
+.attraction__indicator {
+  flex: 1; /* 平均分配剩下的寛度 */
+  height: 5px;
+  background-color: transparent;
+}
+
+.attraction__indicator.active {
+  backdrop-filter: blur(10px); /*讓背景模糊 */
+  background-color: #000000;
+}
+
+.attraction__nav-btn {
+  position: absolute;
+  top: 50%;
+  opacity: 0.7;
+}
+
+.attraction__nav-btn:hover {
+  opacity: 1;
+}
+
+.attraction__nav-btn--right {
+  transform: translateX(50%);
+  right: 5%;
+}
+
+.attraction__nav-btn--left {
+  transform: translateX(-50%);
+  left: 5%;
+}
+
+.attraction__nav-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.attraction__image {
+  border-radius: 5px;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.attraction__side-panel {
+  height: 400px;
+  max-width: 600px;
+  flex: 1;
+  min-width: 300px;
+  margin-left: 30px;
+}
+
+.attraction__title {
+  color: #666666;
+  margin-bottom: 25px;
+}
+
+.attraction__subtitle {
+  color: #666666;
+  margin-bottom: 25px;
+}
+
+.booking {
+  background-color: #e8e8e8;
+  border-radius: 5px;
+  padding: 15px 20px;
+}
+
+.booking__field,
+.booking__title,
+.booking__subtitle {
+  margin-bottom: 20px;
+}
+
+.booking__title,
+.booking__subtitle,
+.booking__label,
+.booking__price,
+.booking__radio-label {
+  color: #666666;
+}
+
+.booking__field {
+  display: flex;
+}
+
+.booking__fielddate {
+  background-color: #ffffff;
+}
+
+.booking__radio-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.booking__radio-input {
+  width: 18px;
+  height: 18px;
+  accent-color: #448899;
+  cursor: pointer;
+}
+
+.booking__field--price {
+  margin-bottom: 25px;
+}
+
+.booking__btn {
+  background-color: #448899;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #ffffff;
+  margin-bottom: 21px;
+}
+
+.info__separator {
+  max-width: 1200px;
+  margin: 40px auto;
+}
+
+.info {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.info__title,
+.info__content,
+.info__location,
+.info__transport {
+  color: #666666;
+}
+
+.info__content,
+.info__location {
+  margin-bottom: 20px;
+}
+
+.info__transport {
+  margin-bottom: 80px;
+}
+
+@media (max-width: 750px) {
+  .attraction {
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .attraction__gallery {
+    width: 100%;
+    aspect-ratio: 360 / 350;
+    margin-bottom: 20px;
+    flex: 1;
+    object-fit: cover;
+    max-width: 750px;
+  }
+  .attraction__side-panel {
+    max-width: 750px;
+    flex-basis: 100%;
+    margin: 0 20px;
+  }
+  .attraction__separator {
+    display: none;
+  }
+  .info__separator {
+    width: 90%;
+  }
+  .attraction__nav-btn--right {
+    right: 7%;
+  }
+}
+@media (max-width: 360px) {
+  .attraction__side-panel {
+    min-width: 250px;
+  }
+}
