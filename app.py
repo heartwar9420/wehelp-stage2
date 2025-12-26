@@ -254,7 +254,7 @@ from datetime import datetime, timedelta
 
 # 這是一把只有你的後端知道的「鑰匙」，用來簽署 Token
 # 實務上會放進環境變數，現在你可以先設定一個隨機字串
-SECRET_KEY = "your_super_secret_key"
+
 ALGORITHM = "HS256"
 
 
