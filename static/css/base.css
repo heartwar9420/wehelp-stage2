@@ -85,6 +85,16 @@ h3 {
   letter-spacing: 0%;
 }
 
+.button-bold{
+font-weight: 700;
+font-size: 19px;
+line-height: 16px;
+letter-spacing: 0%;
+}
+
+.is-hidden {
+  display: none;
+}
 /* nav */
 
 .nav {
@@ -120,6 +130,7 @@ h3 {
   border: 0;
   cursor: pointer;
 }
+
 
 /* footer */
 
