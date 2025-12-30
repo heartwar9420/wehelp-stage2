@@ -250,13 +250,17 @@ class MemberSignup(MemberLogin):
 
 # JWT
 import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
+import os 
+from dotenv import load_dotenv 
 
-# 這是一把只有你的後端知道的「鑰匙」，用來簽署 Token
-# 實務上會放進環境變數，現在你可以先設定一個隨機字串
-SECRET_KEY = "your_super_secret_key"
+load_dotenv()# 讀取密鑰
+my_key = os.getenv("SECRET_KEY") #把密鑰存到 my_key中
+
+SECRET_KEY = my_key
 ALGORITHM = "HS256"
 
+# signup
 
 @app.post("/api/user")
 async def signup(member_signup: MemberSignup):
@@ -289,15 +293,69 @@ async def signup(member_signup: MemberSignup):
     finally:
         cursor.close()
 
+# user_info
 
 @app.get("/api/user/auth")
+async def get_user_info(request: Request):
+    # 從請求的 Header (標頭) 中尋找名為 "Authorization" 的欄位
+    # 前端傳送 Token 時，通常會放在"Authorization" 的欄位
+    auth_header = request.headers.get("Authorization")
+
+    # 如果傳來的 Token 不是 auth_header 或開頭不是 "Bearer"
+    # 直接回傳 None 
+    
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return {"data": None}
+
+    try:
+        # 把 "Bearer " 這幾個字切掉，只拿後面的 Token 字串
+        token = auth_header.split(" ")[1]
+        
+        #  解析 Token 
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        
+        #  回傳規格要求的格式
+        return {
+            "data": {
+                "id": payload["id"],
+                "name": payload["name"],
+                "email": payload.get("email")
+            }
+        }
+    except Exception:
+        return {"data": None}
+
+# login
+
 @app.put("/api/user/auth")
 async def login(member_login: MemberLogin):
     member_email = member_login.email
     member_password = member_login.password
 
     try:
-        cursor = cursor()
+        cursor = con.cursor()
+
+        cursor.execute("SELECT id, name, email FROM member WHERE email=%s AND password=%s", [member_email, member_password])
+        user = cursor.fetchone()
+
+        if not user:
+            return JSONResponse(
+                status_code=400, 
+                content={"error": True, "message": "帳號或密碼錯誤"}
+            )
+
+        payload = {
+            "id": user[0],
+            "name": user[1],
+            "email": user[2],
+            "exp": datetime.now(timezone.utc) + timedelta(days=7) # 設定過期時間
+        }
+
+        # 製作 Token
+        token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+
+        # 依照規格回傳 token
+        return {"token": token}
 
     except Exception as e:
         print("API /api/member error:", e)

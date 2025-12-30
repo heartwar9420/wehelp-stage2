@@ -85,6 +85,16 @@ h3 {
   letter-spacing: 0%;
 }
 
+.button-bold {
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 16px;
+  letter-spacing: 0%;
+}
+
+.is-hidden {
+  display: none;
+}
 /* nav */
 
 .nav {
@@ -213,4 +223,10 @@ dialog::backdrop {
 .login__close--image {
   width: 16px;
   height: 16px;
+}
+.register__errortext,
+.login__errortext {
+  color: red;
+  text-align: center;
+  margin: 0px auto 10px;
 }
