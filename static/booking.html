@@ -20,14 +20,98 @@
           <div class="nav__menu">
             <button class="nav__btn nav__btn--booking btn">預定行程</button>
             <button class="nav__btn nav__btn--login btn">登入/註冊</button>
-            <button class="nav__btn nav__btn--logout btn is-hidden">登出帳號</button>
+            <button class="nav__btn nav__btn--logout btn is-hidden">
+              登出帳號
+            </button>
           </div>
         </div>
       </nav>
-      <div class ="headline button-bold">您好，Yakko，待預訂的行程如下：</div>
-      <section class=""></section>
 
+      <hr class="nav__separator" />
 
+      <div class="booking__headline button-bold">
+        您好，Yakko，待預訂的行程如下：
+      </div>
+
+      <section class="attraction">
+        <div class="attraction__imgarea">
+          <img
+            src="/static/images/test_attractions_image.jpg"
+            class="attraction__img"
+          />
+        </div>
+        <div class="attraction__info">
+          <p class="attraction__title body-bold">台北一日遊：平安鐘</p>
+          <div class="attraction__item">
+            <span class="attraction__label body-bold">日期：</span>
+            <span class="attraction__text js-date body-med">2021-04-23</span>
+          </div>
+          <div class="attraction__item">
+            <span class="attraction__label body-bold">時間：</span>
+            <span class="attraction__text js-time body-med"
+              >早上 9 點到下午 4 點</span
+            >
+          </div>
+          <div class="attraction__item">
+            <span class="attraction__label body-bold">費用：</span>
+            <span class="attraction__text js-price body-med"
+              >新台幣 2000 元</span
+            >
+          </div>
+          <div class="attraction__item">
+            <span class="attraction__label body-bold">地點：</span>
+            <span class="attraction__text js-location body-med">
+              臺北市 大安區忠孝東路4段
+            </span>
+          </div>
+          <img src="/static/images/icon__delete.png" class="icon__delete btn" />
+        </div>
+      </section>
+
+      <hr class="attraction__separator" />
+
+      <section class="contact__form">
+        <form class="contact__container">
+          <p class="contact__title button-bold">您的聯絡資訊</p>
+          <div class="contact__field">
+            <label for="user_name" class="contact__subtitle body-med"
+              >聯絡姓名：</label
+            >
+            <input
+              id="user_name"
+              type="text"
+              name="user_name"
+              class="contact__name body-med"
+            />
+          </div>
+          <div class="contact__field">
+            <label for="user_email" class="contact__subtitle body-med"
+              >連絡信箱：</label
+            >
+            <input
+              id="user_email"
+              type="email"
+              name="user_email"
+              class="contact__email body-med"
+            />
+          </div>
+          <div class="contact__field">
+            <label for="user_tel" class="contact__subtitle body-med"
+              >手機號碼：</label
+            >
+            <input
+              id="user_tel"
+              type="tel"
+              name="user_tel"
+              class="contact__tel body-med"
+            />
+          </div>
+          <p class="contact__notice">
+            請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。
+          </p>
+        </form>
+      </section>
+    </main>
     <!-- footer -->
     <footer>
       <p class="footer-text body-bold">COPYRIGHT © 2021 台北一日遊</p>
@@ -53,7 +137,9 @@
           placeholder="輸入密碼"
           class="body-med login__input"
         />
-        <button type="submit" class="button-reg btn login__btn">登入帳戶</button>
+        <button type="submit" class="button-reg btn login__btn">
+          登入帳戶
+        </button>
         <button
           type="button"
           id="LogincloseBtn"
@@ -88,7 +174,9 @@
           placeholder="輸入密碼"
           class="body-med register__input"
         />
-        <button type="submit" class="button-reg btn register__btn">註冊新帳戶</button>
+        <button type="submit" class="button-reg btn register__btn">
+          註冊新帳戶
+        </button>
         <button
           type="button"
           id="RegistercloseBtn"
