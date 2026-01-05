@@ -251,16 +251,17 @@ class MemberSignup(MemberLogin):
 # JWT
 import jwt
 from datetime import datetime, timedelta, timezone
-import os 
-from dotenv import load_dotenv 
+import os
+from dotenv import load_dotenv
 
-load_dotenv()# 讀取密鑰
-my_key = os.getenv("SECRET_KEY") #把密鑰存到 my_key中
+load_dotenv()  # 讀取密鑰
+my_key = os.getenv("SECRET_KEY")  # 把密鑰存到 my_key中
 
 SECRET_KEY = my_key
 ALGORITHM = "HS256"
 
 # signup
+
 
 @app.post("/api/user")
 async def signup(member_signup: MemberSignup):
@@ -293,7 +294,9 @@ async def signup(member_signup: MemberSignup):
     finally:
         cursor.close()
 
+
 # user_info
+
 
 @app.get("/api/user/auth")
 async def get_user_info(request: Request):
@@ -302,30 +305,32 @@ async def get_user_info(request: Request):
     auth_header = request.headers.get("Authorization")
 
     # 如果傳來的 Token 不是 auth_header 或開頭不是 "Bearer"
-    # 直接回傳 None 
-    
+    # 直接回傳 None
+
     if not auth_header or not auth_header.startswith("Bearer "):
         return {"data": None}
 
     try:
         # 把 "Bearer " 這幾個字切掉，只拿後面的 Token 字串
         token = auth_header.split(" ")[1]
-        
-        #  解析 Token 
+
+        #  解析 Token
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        
+
         #  回傳規格要求的格式
         return {
             "data": {
                 "id": payload["id"],
                 "name": payload["name"],
-                "email": payload.get("email")
+                "email": payload.get("email"),
             }
         }
     except Exception:
         return {"data": None}
 
+
 # login
+
 
 @app.put("/api/user/auth")
 async def login(member_login: MemberLogin):
@@ -335,20 +340,22 @@ async def login(member_login: MemberLogin):
     try:
         cursor = con.cursor()
 
-        cursor.execute("SELECT id, name, email FROM member WHERE email=%s AND password=%s", [member_email, member_password])
+        cursor.execute(
+            "SELECT id, name, email FROM member WHERE email=%s AND password=%s",
+            [member_email, member_password],
+        )
         user = cursor.fetchone()
 
         if not user:
             return JSONResponse(
-                status_code=400, 
-                content={"error": True, "message": "帳號或密碼錯誤"}
+                status_code=400, content={"error": True, "message": "帳號或密碼錯誤"}
             )
 
         payload = {
             "id": user[0],
             "name": user[1],
             "email": user[2],
-            "exp": datetime.now(timezone.utc) + timedelta(days=7) # 設定過期時間
+            "exp": datetime.now(timezone.utc) + timedelta(days=7),  # 設定過期時間
         }
 
         # 製作 Token
@@ -359,6 +366,174 @@ async def login(member_login: MemberLogin):
 
     except Exception as e:
         print("API /api/member error:", e)
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+    finally:
+        cursor.close()
+
+
+# booking
+# 使用 pydantic 取得前端傳來的資料
+class BookingRequest(BaseModel):
+    attractionId: int  # 景點的id
+    date: str  # 日期是字串 "2022-01-31"
+    time: str  # 時間是字串 "afternoon"
+    price: int  # 價格是整數
+
+
+@app.post("/api/booking")
+async def booking_post(booking_request: BookingRequest, request: Request):
+
+    # 從請求的 Header (標頭) 中尋找名為 "Authorization" 的欄位
+    # 前端傳送 Token 時，通常會放在"Authorization" 的欄位
+    auth_header = request.headers.get("Authorization")
+
+    # 如果傳來的 Token 不是 auth_header 或開頭不是 "Bearer"
+    # 回傳 403 error
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return JSONResponse(
+            status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"}
+        )
+
+    try:
+        # 把 "Bearer " 這幾個字切掉，只拿後面的 Token 字串
+        token = auth_header.split(" ")[1]
+
+        #  解析 Token
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        # 存到member_id中
+        member_id = payload["id"]
+    except Exception:
+        return JSONResponse(
+            status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"}
+        )
+    attraction_id = booking_request.attractionId
+    booking_date = booking_request.date
+    booking_time = booking_request.time
+    booking_price = booking_request.price
+    try:
+        cursor = con.cursor()
+        cursor.execute(
+            "INSERT INTO booking(member_id,attraction_id,booking_date,booking_time,booking_price) VALUES (%s,%s,%s,%s,%s)",
+            [member_id, attraction_id, booking_date, booking_time, booking_price],
+        )
+        con.commit()
+        return {"ok": True}
+
+    except Exception as e:
+        print("API /api/booking error:", e)
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+    finally:
+        cursor.close()
+
+
+@app.get("/api/booking")
+async def booking_get(request: Request):
+    # 從請求的 Header (標頭) 中尋找名為 "Authorization" 的欄位
+    # 前端傳送 Token 時，通常會放在"Authorization" 的欄位
+    auth_header = request.headers.get("Authorization")
+
+    # 如果傳來的 Token 不是 auth_header 或開頭不是 "Bearer"
+    # 回傳 403 error
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return JSONResponse(
+            status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"}
+        )
+
+    try:
+        # 把 "Bearer " 這幾個字切掉，只拿後面的 Token 字串
+        token = auth_header.split(" ")[1]
+
+        #  解析 Token
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        # 存到member_id中
+        member_id = payload["id"]
+    except Exception:
+        return JSONResponse(
+            status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"}
+        )
+    try:
+        cursor = con.cursor()
+        cursor.execute(
+            """SELECT 
+                        attractions.id,
+                        attractions.name,
+                        attractions.address,
+                        booking.booking_date,
+                        booking.booking_time,
+                        booking.booking_price,
+                        (SELECT image_url FROM images WHERE attraction_id = attractions.id LIMIT 1)as image_url FROM booking
+                        INNER JOIN attractions 
+                        ON booking.attraction_id = attractions.id
+                        WHERE booking.member_id = %s
+                        ORDER BY booking.id DESC LIMIT 1;
+                        """,
+            [member_id],
+        )
+        result = cursor.fetchone()
+        if result:
+            return {
+                "data": {
+                    "attraction": {
+                        "id": result[0],
+                        "name": result[1],
+                        "address": result[2],
+                        "image": result[6],
+                    },
+                    "date": str(result[3]),
+                    "time": result[4],
+                    "price": result[5],
+                }
+            }
+        else:
+            return {"data": None}
+
+    except Exception as e:
+        print("API /api/booking error:", e)
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+    finally:
+        cursor.close()
+
+
+@app.delete("/api/booking")
+async def booking_delete(request: Request):
+    # 從請求的 Header (標頭) 中尋找名為 "Authorization" 的欄位
+    # 前端傳送 Token 時，通常會放在"Authorization" 的欄位
+    auth_header = request.headers.get("Authorization")
+
+    # 如果傳來的 Token 不是 auth_header 或開頭不是 "Bearer"
+    # 回傳 403 error
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return JSONResponse(
+            status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"}
+        )
+
+    try:
+        # 把 "Bearer " 這幾個字切掉，只拿後面的 Token 字串
+        token = auth_header.split(" ")[1]
+
+        #  解析 Token
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        # 存到member_id中
+        member_id = payload["id"]
+    except Exception:
+        return JSONResponse(
+            status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"}
+        )
+    try:
+        cursor = con.cursor()
+        cursor.execute(
+            "DELETE FROM booking WHERE member_id=%s",
+            [member_id],
+        )
+        con.commit()
+        return {"ok": True}
+    except Exception:
         return JSONResponse(
             status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
         )
