@@ -14,19 +14,145 @@
       <!-- navigation -->
       <nav class="nav">
         <div class="nav__container">
-          <button onclick="window.location.href='/'" class="h2 btn nav__title">
-            台北一日遊
-          </button>
+          <button onclick="window.location.href='/'" class="h2 btn nav__title">台北一日遊</button>
           <div class="nav__menu">
-            <button class="nav__btn nav__btn--booking btn">預定行程</button>
+            <button class="nav__btn js-booking btn">預定行程</button>
             <button class="nav__btn nav__btn--login btn">登入/註冊</button>
             <button class="nav__btn nav__btn--logout btn is-hidden">登出帳號</button>
           </div>
         </div>
       </nav>
-      <div class ="headline button-bold">您好，Yakko，待預訂的行程如下：</div>
-      <section class=""></section>
 
+      <hr class="nav__separator" />
+
+      <!-- booking head__line -->
+
+      <div class="booking__headline button-bold">
+        您好，<span class="user_accountname">使用者</span>，待預訂的行程如下：
+      </div>
+      <div class="booking__empty body-med is-hidden">目前沒有任何待預訂的行程</div>
+
+      <!-- attraction -->
+      <div class="booking__content">
+        <section class="attraction">
+          <div class="attraction__imgarea">
+            <img src="" class="attraction__img" />
+          </div>
+          <div class="attraction__info">
+            <p class="attraction__content body-bold">
+              台北一日遊：<span class="attraction__title body-bold">地點</span>
+            </p>
+            <div class="attraction__item">
+              <span class="attraction__label body-bold">日期：</span>
+              <span class="attraction__text js-date body-med">日期</span>
+            </div>
+            <div class="attraction__item">
+              <span class="attraction__label body-bold">時間：</span>
+              <span class="attraction__text js-time body-med">時間</span>
+            </div>
+            <div class="attraction__item">
+              <span class="attraction__label body-bold">費用：</span>
+              <span class="attraction__text body-med"
+                >新台幣<span class="js-base-price">金額</span>元</span
+              >
+            </div>
+            <div class="attraction__item">
+              <span class="attraction__label body-bold">地點：</span>
+              <span class="attraction__text js-location body-med">地址</span>
+            </div>
+            <img src="/static/images/icon__delete.png" class="icon__delete btn" />
+          </div>
+        </section>
+
+        <hr class="separator" />
+        <!-- checkout__form -->
+
+        <form class="checkout__form">
+          <section class="contact">
+            <p class="contact__title button-bold">您的聯絡資訊</p>
+            <div class="contact__field">
+              <label for="user_name" class="contact__subtitle body-med">聯絡姓名：</label>
+              <input
+                id="user_name"
+                type="text"
+                name="user_name"
+                class="contact__input js-name body-med"
+              />
+            </div>
+            <div class="contact__field">
+              <label for="user_email" class="contact__subtitle body-med">連絡信箱：</label>
+              <input
+                id="user_email"
+                type="email"
+                name="user_email"
+                class="contact__input js-email body-med"
+              />
+            </div>
+            <div class="contact__field">
+              <label for="user_tel" class="contact__subtitle body-med">手機號碼：</label>
+              <input
+                id="user_tel"
+                type="tel"
+                name="user_tel"
+                class="contact__input js-tel body-med"
+              />
+            </div>
+            <p class="contact__notice body-bold">
+              請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。
+            </p>
+          </section>
+
+          <hr class="separator" />
+          <!-- payment -->
+
+          <section class="payment">
+            <p class="payment__title button-bold">信用卡付款資訊</p>
+            <div class="payment__field">
+              <label for="payment_card" class="payment__label body-med">卡片號碼：</label>
+              <input
+                id="payment_card"
+                name="payment_card"
+                placeholder="**** **** **** ****"
+                class="payment__input js-card body-med"
+              />
+            </div>
+            <div class="payment__field">
+              <label for="payment_datetime" class="payment__label body-med">過期時間：</label>
+              <input
+                id="payment_datetime"
+                name="payment_datetime"
+                placeholder="MM / YY"
+                class="payment__input js-datetime body-med"
+              />
+            </div>
+            <div class="payment__field">
+              <label for="payment_password" class="payment__label body-med">驗證密碼：</label>
+              <input
+                type="password"
+                id="payment_password"
+                name="payment_password"
+                placeholder="CVV"
+                class="payment__input js-password body-med"
+              />
+            </div>
+          </section>
+
+          <hr class="separator" />
+          <!-- confirm -->
+
+          <section class="confirm">
+            <div class="confirm__field">
+              <p class="confirm__price body-bold">
+                總價：新台幣
+                <span class="js-total-price">金額</span>
+                元
+              </p>
+              <button type="submit" class="confirm__btn btn button-reg">確認訂購並付款</button>
+            </div>
+          </section>
+        </form>
+      </div>
+    </main>
 
     <!-- footer -->
     <footer>
@@ -38,27 +164,12 @@
       <h3 class="login__title">登入會員帳號</h3>
       <form class="login__input-area">
         <button type="button" class="login__close-btn">
-          <img
-            src="/static/images/close_btn.png"
-            class="login__close--image btn"
-          />
+          <img src="/static/images/close_btn.png" class="login__close--image btn" />
         </button>
-        <input
-          type="email"
-          placeholder="輸入電子信箱"
-          class="body-med login__input"
-        />
-        <input
-          type="password"
-          placeholder="輸入密碼"
-          class="body-med login__input"
-        />
+        <input type="email" placeholder="輸入電子信箱" class="body-med login__input" />
+        <input type="password" placeholder="輸入密碼" class="body-med login__input" />
         <button type="submit" class="button-reg btn login__btn">登入帳戶</button>
-        <button
-          type="button"
-          id="LogincloseBtn"
-          class="body-med btn login__register-btn"
-        >
+        <button type="button" id="LogincloseBtn" class="body-med btn login__register-btn">
           還沒有帳戶？點此註冊
         </button>
       </form>
@@ -68,32 +179,13 @@
       <h3 class="register__title">註冊會員帳號</h3>
       <form class="register__input-area">
         <button type="button" class="register__close-btn">
-          <img
-            src="/static/images/close_btn.png"
-            class="register__close--image btn"
-          />
+          <img src="/static/images/close_btn.png" class="register__close--image btn" />
         </button>
-        <input
-          type="text"
-          placeholder="輸入姓名"
-          class="body-med register__input"
-        />
-        <input
-          type="email"
-          placeholder="輸入電子信箱"
-          class="body-med register__input"
-        />
-        <input
-          type="password"
-          placeholder="輸入密碼"
-          class="body-med register__input"
-        />
+        <input type="text" placeholder="輸入姓名" class="body-med register__input" />
+        <input type="email" placeholder="輸入電子信箱" class="body-med register__input" />
+        <input type="password" placeholder="輸入密碼" class="body-med register__input" />
         <button type="submit" class="button-reg btn register__btn">註冊新帳戶</button>
-        <button
-          type="button"
-          id="RegistercloseBtn"
-          class="body-med btn register__login-btn"
-        >
+        <button type="button" id="RegistercloseBtn" class="body-med btn register__login-btn">
           已經有帳戶了？點此登入
         </button>
       </form>

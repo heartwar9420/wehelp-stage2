@@ -414,6 +414,9 @@ async def booking_post(booking_request: BookingRequest, request: Request):
     booking_price = booking_request.price
     try:
         cursor = con.cursor()
+        # 先刪除舊的
+        cursor.execute("DELETE FROM booking WHERE member_id = %s", [member_id])
+        # 再新增新的
         cursor.execute(
             "INSERT INTO booking(member_id,attraction_id,booking_date,booking_time,booking_price) VALUES (%s,%s,%s,%s,%s)",
             [member_id, attraction_id, booking_date, booking_time, booking_price],
