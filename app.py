@@ -6,14 +6,17 @@ from fastapi.responses import JSONResponse
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
-con = mysql.connector.connect(
-    user="app_user",
-    password="12345678",
-    host="localhost",
-    database="taipei_day_trip",
-    use_pure=True,
-)
+dbconfig = {
+    "user": "app_user",
+    "password": "12345678",
+    "host": "localhost",
+    "database": "taipei_day_trip",
+    "use_pure": True,
+}
 print("database ready")
+from mysql.connector import pooling
+
+pool = pooling.MySQLConnectionPool(pool_name="mypool", pool_size=5, **dbconfig)
 
 
 # Static Pages (Never Modify Code in this Block)
@@ -44,6 +47,8 @@ async def get_attractions(
     keyword: str = Query(None),
     category: str = Query(None),
 ):
+    conn = None
+    cursor = None
     try:
         offset = page * 8  # 計算從第幾筆資料開始抓
         base_sql = """
@@ -75,13 +80,13 @@ async def get_attractions(
 
         result_sql = result_sql + " LIMIT 9 OFFSET %s "
         parameter_list.append(offset)
-        cursor = con.cursor()
+        conn = pool.get_connection()
+        cursor = conn.cursor()
         cursor.execute(
             result_sql, parameter_list
         )  # 使用參數化查詢執行 SQL，讓參數安全地替換到 %s 位置
         rows = cursor.fetchall()  # rows = 所有抓到的資料
         if len(rows) == 0:  # 如果沒有抓到任何一筆資料的話
-            cursor.close()
             return {"nextPage": None, "data": []}
         else:
             if len(rows) == 9:
@@ -142,14 +147,21 @@ async def get_attractions(
             status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
         )
     finally:
-        cursor.close()
+        if cursor is not None:
+            cursor.close()
+
+        if conn is not None:
+            conn.close()
 
 
 @app.get("/api/attraction/{id}")
 async def get_single_attraction(id: int):
     base_sql = "SELECT id,name,category,description,address,transport,mrt,lat,lng FROM attractions WHERE id = %s"
+    conn = None
+    cursor = None
     try:
-        cursor = con.cursor()
+        conn = pool.get_connection()
+        cursor = conn.cursor()
         cursor.execute(
             base_sql, (id,)
         )  # execute 的第二個參數一定要是「列表或 tuple」，不能只給一個值
@@ -187,13 +199,20 @@ async def get_single_attraction(id: int):
             status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
         )
     finally:
-        cursor.close()
+        if cursor is not None:
+            cursor.close()
+
+        if conn is not None:
+            conn.close()
 
 
 @app.get("/api/categories")
 async def get_categories():
+    conn = None
+    cursor = None
     try:
-        cursor = con.cursor()
+        conn = pool.get_connection()
+        cursor = conn.cursor()
         cursor.execute(
             "SELECT DISTINCT category FROM attractions ORDER BY category ASC"
         )
@@ -203,6 +222,7 @@ async def get_categories():
             category_list.append(category_row[0])
         data = list(category_list)
         cursor.close()
+        conn.close()
         return {"data": data}
     except Exception as e:
         print("API /api/attraction/{id} error:", e)
@@ -213,8 +233,11 @@ async def get_categories():
 
 @app.get("/api/mrts")
 async def get_mrts():
+    conn = None
+    cursor = None
     try:
-        cursor = con.cursor()
+        conn = pool.get_connection()
+        cursor = conn.cursor()
         cursor.execute(
             "SELECT DISTINCT mrt FROM attractions WHERE mrt IS NOT NULL ORDER BY mrt ASC"
         )
@@ -224,6 +247,7 @@ async def get_mrts():
             mrt_list.append(mrt_row[0])
         data = list(mrt_list)
         cursor.close()
+        conn.close()
         return {"data": data}
     except Exception as e:
         print("API /api/attraction/{id} error:", e)
@@ -251,25 +275,28 @@ class MemberSignup(MemberLogin):
 # JWT
 import jwt
 from datetime import datetime, timedelta, timezone
-import os 
-from dotenv import load_dotenv 
+import os
+from dotenv import load_dotenv
 
-load_dotenv()# 讀取密鑰
-my_key = os.getenv("SECRET_KEY") #把密鑰存到 my_key中
+load_dotenv()  # 讀取密鑰
+my_key = os.getenv("SECRET_KEY")  # 把密鑰存到 my_key中
 
 SECRET_KEY = my_key
 ALGORITHM = "HS256"
 
 # signup
 
+
 @app.post("/api/user")
 async def signup(member_signup: MemberSignup):
     member_email = member_signup.email
     member_password = member_signup.password
     member_name = member_signup.name
-
+    conn = None
+    cursor = None
     try:
-        cursor = con.cursor()
+        conn = pool.get_connection()
+        cursor = conn.cursor()
         cursor.execute("SELECT id FROM member WHERE email=%s", [member_email])
         result = cursor.fetchone()
 
@@ -282,7 +309,7 @@ async def signup(member_signup: MemberSignup):
             [member_name, member_email, member_password],
         )
 
-        con.commit()
+        conn.commit()
 
         return {"ok": True}
     except Exception as e:
@@ -291,9 +318,15 @@ async def signup(member_signup: MemberSignup):
             status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
         )
     finally:
-        cursor.close()
+        if cursor is not None:
+            cursor.close()
+
+        if conn is not None:
+            conn.close()
+
 
 # user_info
+
 
 @app.get("/api/user/auth")
 async def get_user_info(request: Request):
@@ -302,53 +335,60 @@ async def get_user_info(request: Request):
     auth_header = request.headers.get("Authorization")
 
     # 如果傳來的 Token 不是 auth_header 或開頭不是 "Bearer"
-    # 直接回傳 None 
-    
+    # 直接回傳 None
+
     if not auth_header or not auth_header.startswith("Bearer "):
         return {"data": None}
-
+    conn = None
+    cursor = None
     try:
         # 把 "Bearer " 這幾個字切掉，只拿後面的 Token 字串
         token = auth_header.split(" ")[1]
-        
-        #  解析 Token 
+
+        #  解析 Token
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        
+
         #  回傳規格要求的格式
         return {
             "data": {
                 "id": payload["id"],
                 "name": payload["name"],
-                "email": payload.get("email")
+                "email": payload.get("email"),
             }
         }
     except Exception:
         return {"data": None}
 
+
 # login
+
 
 @app.put("/api/user/auth")
 async def login(member_login: MemberLogin):
     member_email = member_login.email
     member_password = member_login.password
-
+    conn = None
+    cursor = None
     try:
-        cursor = con.cursor()
+        conn = pool.get_connection()
+        cursor = conn.cursor()
 
-        cursor.execute("SELECT id, name, email FROM member WHERE email=%s AND password=%s", [member_email, member_password])
+        cursor.execute(
+            "SELECT id, name, email FROM member WHERE email=%s AND password=%s",
+            [member_email, member_password],
+        )
         user = cursor.fetchone()
 
         if not user:
             return JSONResponse(
-                status_code=400, 
-                content={"error": True, "message": "帳號或密碼錯誤"}
+                status_code=400, content={"error": True, "message": "帳號或密碼錯誤"}
             )
 
         payload = {
             "id": user[0],
             "name": user[1],
             "email": user[2],
-            "exp": datetime.now(timezone.utc) + timedelta(days=7) # 設定過期時間
+            "exp": datetime.now(timezone.utc) + timedelta(days=7),  # 設定過期時間
         }
 
         # 製作 Token
@@ -363,4 +403,200 @@ async def login(member_login: MemberLogin):
             status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
         )
     finally:
-        cursor.close()
+        if cursor is not None:
+            cursor.close()
+
+        if conn is not None:
+            conn.close()
+
+
+# booking
+# 使用 pydantic 取得前端傳來的資料
+class BookingRequest(BaseModel):
+    attractionId: int  # 景點的id
+    date: str  # 日期是字串 "2022-01-31"
+    time: str  # 時間是字串 "afternoon"
+    price: int  # 價格是整數
+
+
+@app.post("/api/booking")
+async def booking_post(booking_request: BookingRequest, request: Request):
+
+    # 從請求的 Header (標頭) 中尋找名為 "Authorization" 的欄位
+    # 前端傳送 Token 時，通常會放在"Authorization" 的欄位
+    auth_header = request.headers.get("Authorization")
+    conn = None
+    cursor = None
+
+    # 如果傳來的 Token 不是 auth_header 或開頭不是 "Bearer"
+    # 回傳 403 error
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return JSONResponse(
+            status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"}
+        )
+
+    try:
+        # 把 "Bearer " 這幾個字切掉，只拿後面的 Token 字串
+        token = auth_header.split(" ")[1]
+
+        #  解析 Token
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        # 存到member_id中
+        member_id = payload["id"]
+    except Exception:
+        return JSONResponse(
+            status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"}
+        )
+    attraction_id = booking_request.attractionId
+    booking_date = booking_request.date
+    booking_time = booking_request.time
+    booking_price = booking_request.price
+    try:
+        conn = pool.get_connection()
+        cursor = conn.cursor()
+        # 先刪除舊的
+        cursor.execute("DELETE FROM booking WHERE member_id = %s", [member_id])
+        # 再新增新的
+        cursor.execute(
+            "INSERT INTO booking(member_id,attraction_id,booking_date,booking_time,booking_price) VALUES (%s,%s,%s,%s,%s)",
+            [member_id, attraction_id, booking_date, booking_time, booking_price],
+        )
+        conn.commit()
+        return {"ok": True}
+
+    except Exception as e:
+        print("API /api/booking error:", e)
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+    finally:
+        if cursor is not None:
+            cursor.close()
+
+        if conn is not None:
+            conn.close()
+
+
+@app.get("/api/booking")
+async def booking_get(request: Request):
+    # 從請求的 Header (標頭) 中尋找名為 "Authorization" 的欄位
+    # 前端傳送 Token 時，通常會放在"Authorization" 的欄位
+    auth_header = request.headers.get("Authorization")
+    conn = None
+    cursor = None
+
+    # 如果傳來的 Token 不是 auth_header 或開頭不是 "Bearer"
+    # 回傳 403 error
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return JSONResponse(
+            status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"}
+        )
+
+    try:
+        # 把 "Bearer " 這幾個字切掉，只拿後面的 Token 字串
+        token = auth_header.split(" ")[1]
+
+        #  解析 Token
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        # 存到member_id中
+        member_id = payload["id"]
+    except Exception:
+        return JSONResponse(
+            status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"}
+        )
+    try:
+        conn = pool.get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            """SELECT 
+                        attractions.id,
+                        attractions.name,
+                        attractions.address,
+                        booking.booking_date,
+                        booking.booking_time,
+                        booking.booking_price,
+                        (SELECT image_url FROM images WHERE attraction_id = attractions.id LIMIT 1)as image_url FROM booking
+                        INNER JOIN attractions 
+                        ON booking.attraction_id = attractions.id
+                        WHERE booking.member_id = %s
+                        ORDER BY booking.id DESC LIMIT 1;
+                        """,
+            [member_id],
+        )
+        result = cursor.fetchone()
+        if result:
+            return {
+                "data": {
+                    "attraction": {
+                        "id": result[0],
+                        "name": result[1],
+                        "address": result[2],
+                        "image": result[6],
+                    },
+                    "date": str(result[3]),
+                    "time": result[4],
+                    "price": result[5],
+                }
+            }
+        else:
+            return {"data": None}
+
+    except Exception as e:
+        print("API /api/booking error:", e)
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+    finally:
+        if cursor is not None:
+            cursor.close()
+
+        if conn is not None:
+            conn.close()
+
+
+@app.delete("/api/booking")
+async def booking_delete(request: Request):
+    # 從請求的 Header (標頭) 中尋找名為 "Authorization" 的欄位
+    # 前端傳送 Token 時，通常會放在"Authorization" 的欄位
+    auth_header = request.headers.get("Authorization")
+    conn = None
+    cursor = None
+
+    # 如果傳來的 Token 不是 auth_header 或開頭不是 "Bearer"
+    # 回傳 403 error
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return JSONResponse(
+            status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"}
+        )
+
+    try:
+        # 把 "Bearer " 這幾個字切掉，只拿後面的 Token 字串
+        token = auth_header.split(" ")[1]
+
+        #  解析 Token
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        # 存到member_id中
+        member_id = payload["id"]
+    except Exception:
+        return JSONResponse(
+            status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"}
+        )
+    try:
+        conn = pool.get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "DELETE FROM booking WHERE member_id=%s",
+            [member_id],
+        )
+        conn.commit()
+        return {"ok": True}
+    except Exception:
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+    finally:
+        if cursor is not None:
+            cursor.close()
+
+        if conn is not None:
+            conn.close()

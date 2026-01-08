@@ -53,9 +53,7 @@ async function Register() {
   // 抓取資料
   const name = document.querySelector(".register__input[type='text']").value;
   const email = document.querySelector(".register__input[type='email']").value;
-  const password = document.querySelector(
-    ".register__input[type='password']"
-  ).value;
+  const password = document.querySelector(".register__input[type='password']").value;
 
   if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
     registerErrortext.classList.remove('is-hidden'); //把隱藏remove掉
@@ -91,29 +89,33 @@ if (registerForm) {
 }
 // Login
 async function Login() {
-  console.log('進入了 Login 函式');
+  // console.log('進入了 Login 函式');
   // 抓取資料
   const email = document.querySelector(".login__input[type='email']").value;
-  const password = document.querySelector(
-    ".login__input[type='password']"
-  ).value;
+  const password = document.querySelector(".login__input[type='password']").value;
 
-  console.log('開始發送請求');
+  // console.log('開始發送請求');
   // 發送請求
   const response = await fetch('/api/user/auth', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }), // 轉成 JSON 字串
   });
-  console.log('開始把respones轉成json格式');
+  // console.log('開始把response轉成json格式');
   const result = await response.json();
-  console.log('後端回傳的結果：', result);
+  // console.log('後端回傳的結果：', result);
 
   if (result.token) {
     localStorage.setItem('token', result.token); // 將後端回傳的驗證憑證（Token）儲存在瀏覽器，以維持登入狀態
     alert('登入成功！');
-    closeloginDialog();
-    location.reload(); // 重新載入頁面
+    const wanttoBooking = sessionStorage.getItem('wanttoBooking');
+    if (wanttoBooking) {
+      sessionStorage.removeItem('wanttoBooking');
+      window.location.href = '/booking';
+    } else {
+      closeloginDialog();
+      location.reload(); // 重新載入頁面
+    }
   } else {
     loginErrortext.classList.remove('is-hidden'); //把隱藏remove掉
     loginErrortext.textContent = result.message;
@@ -153,10 +155,24 @@ document.addEventListener('DOMContentLoaded', checkAuthStatus); // 當 dom 讀�
 function logout() {
   localStorage.removeItem('token');
   alert('您已成功登出！');
-  location.reload();
+  window.location.replace('/');
 }
 
 const logoutBtn = document.querySelector('.nav__btn--logout');
 if (logoutBtn) {
   logoutBtn.addEventListener('click', logout);
 }
+
+// booking
+
+const bookingBtn = document.querySelector('.js-booking');
+bookingBtn.addEventListener('click', function () {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    window.location.href = '/booking';
+  } else {
+    sessionStorage.setItem('wanttoBooking', '/booking');
+    openloginDialog();
+  }
+});
