@@ -146,6 +146,8 @@ async function checkAuthStatus() {
       const loginBtn = document.querySelector('.nav__btn--login');
       logoutBtn.classList.remove('is-hidden');
       loginBtn.classList.add('is-hidden');
+    } else {
+      localStorage.removeItem('token');
     }
   }
 }
