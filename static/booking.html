@@ -77,6 +77,7 @@
                 type="text"
                 name="user_name"
                 class="contact__input js-name body-med"
+                required
               />
             </div>
             <div class="contact__field">
@@ -84,8 +85,10 @@
               <input
                 id="user_email"
                 type="email"
+                pattern=".+@.+\.com$"
                 name="user_email"
                 class="contact__input js-email body-med"
+                required
               />
             </div>
             <div class="contact__field">
@@ -93,8 +96,12 @@
               <input
                 id="user_tel"
                 type="tel"
+                maxlength="10"
+                pattern="09[0-9]{8}"
                 name="user_tel"
+                placeholder="請輸入手機號碼"
                 class="contact__input js-tel body-med"
+                required
               />
             </div>
             <p class="contact__notice body-bold">
@@ -109,31 +116,15 @@
             <p class="payment__title button-bold">信用卡付款資訊</p>
             <div class="payment__field">
               <label for="payment_card" class="payment__label body-med">卡片號碼：</label>
-              <input
-                id="payment_card"
-                name="payment_card"
-                placeholder="**** **** **** ****"
-                class="payment__input js-card body-med"
-              />
+              <div class="tpfield payment__input body-med" id="card-number"></div>
             </div>
             <div class="payment__field">
               <label for="payment_datetime" class="payment__label body-med">過期時間：</label>
-              <input
-                id="payment_datetime"
-                name="payment_datetime"
-                placeholder="MM / YY"
-                class="payment__input js-datetime body-med"
-              />
+              <div class="tpfield payment__input body-med" id="card-expiration-date"></div>
             </div>
             <div class="payment__field">
               <label for="payment_password" class="payment__label body-med">驗證密碼：</label>
-              <input
-                type="password"
-                id="payment_password"
-                name="payment_password"
-                placeholder="CVV"
-                class="payment__input js-password body-med"
-              />
+              <div class="tpfield payment__input body-med" id="card-ccv"></div>
             </div>
           </section>
 
@@ -192,6 +183,7 @@
     </dialog>
     <!-- script -->
     <script src="/static/js/base.js"></script>
+    <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
     <script src="/static/js/booking.js"></script>
   </body>
 </html>

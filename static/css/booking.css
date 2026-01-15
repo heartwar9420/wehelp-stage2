@@ -1,7 +1,3 @@
-.nav__separator {
-  margin: 0px 0 40px;
-}
-
 .booking__headline {
   color: #666666;
   max-width: 1000px;
@@ -117,6 +113,8 @@
 
 .payment__field {
   margin: 0 0 20px 0;
+  display: flex;
+  align-items: center;
 }
 
 .payment__label {
@@ -128,12 +126,18 @@
   border-radius: 5px;
   max-width: 200px;
   width: 100%;
-  max-height: 8px;
-  height: 100%;
+  height: 20px;
   padding: 10px;
 }
 
-.payment__input:focus {
+/* TapPay Fields */
+.tpfield {
+  border: 1px solid gray;
+  margin: 5px 0;
+  padding: 5px;
+}
+
+.tappay-field-focus {
   outline: 2px solid black;
 }
 
