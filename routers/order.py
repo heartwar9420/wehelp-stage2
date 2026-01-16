@@ -146,6 +146,7 @@ async def create_order(
         result = responses.json()
         details_str = json.dumps(result)
         if result["status"] == 0:
+            cursor.execute("DELETE FROM booking WHERE member_id = %s", [member_id])
             cursor.execute(
                 """
                 UPDATE orders 
@@ -202,15 +203,53 @@ async def get_order(orderNumber: str, payload: dict = Depends(get_token)):
     conn = None
     cursor = None
 
-    conn = pool.get_connection()
-    cursor = conn.cursor()
-    cursor.execute(
-        """
-        SELECT * FROM orders
-        WHERE order_number = %s
-        """,
-        [orderNumber],
-    )
-    conn.commit()
-    result = cursor.fetchall()
-    print(result)
+    try:
+        conn = pool.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute(
+            """
+            SELECT order_number,price,attraction_id,attractions.name,
+            attractions.address,order_date,order_time,contact_name,
+            contact_phone,contact_email,paid_status,
+            (SELECT image_url FROM images WHERE attraction_id = attractions.id LIMIT 1)as image_url
+            FROM orders 
+            INNER JOIN attractions 
+            ON orders.attraction_id = attractions.id
+            WHERE order_number = %s;
+            """,
+            [orderNumber],
+        )
+        result = cursor.fetchall()
+        if result:
+            res = result[0]
+
+            data = {
+                "number": res["order_number"],
+                "price": res["price"],
+                "trip": {
+                    "attraction": {
+                        "id": res["attraction_id"],
+                        "name": res["name"],
+                        "address": res["address"],
+                        "image": res["image_url"],
+                    },
+                    "date": res["order_date"],
+                    "time": res["order_time"],
+                },
+                "contact": {
+                    "name": res["contact_name"],
+                    "email": res["contact_email"],
+                    "phone": res["contact_phone"],
+                },
+                "status": res["paid_status"],
+            }
+            return {"data": data}
+        else:
+            return {"data": None}
+
+    finally:
+        if cursor is not None:
+            cursor.close()
+
+        if conn is not None:
+            conn.close()

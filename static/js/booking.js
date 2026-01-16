@@ -160,7 +160,7 @@ const checkoutForm = document.querySelector('.checkout__form');
 checkoutForm.addEventListener('submit', function (event) {
   event.preventDefault(); // 暫停重整的動作
   TPDirect.card.getPrime(function (result) {
-    console.log(result);
+    // console.log(result);
     if (result.status !== 0) {
       alert('刷卡失敗，請確認輸入資料正確');
       return;
@@ -198,6 +198,7 @@ async function post_api_order(prime) {
       },
     },
   };
+  // console.log(data);
   const res = await fetch('api/orders', {
     method: 'POST',
     headers: {
@@ -207,6 +208,6 @@ async function post_api_order(prime) {
     body: JSON.stringify(data), //把物件轉成JSON 字串
   });
   const result = await res.json();
-  console.log(result.data.number);
+  // console.log(result.data.number);
   window.location.href = `/thankyou?number=${result.data.number}`;
 }

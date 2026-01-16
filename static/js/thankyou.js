@@ -3,21 +3,39 @@
 const urlPart = window.location.search; // 網址上面 ? 後面的那一串
 const urlNumber = new URLSearchParams(urlPart); // 使用 URLSearchParams 來解析 url
 const orderNumber = urlNumber.get('number'); //得到 "number=" 值
-
+const url = `/api/order/${orderNumber}`; //把orderNumber 放到正確的位置中
+const js_top_title = document.querySelector('.js-topTitle');
+const js_sub_title = document.querySelector('.js-subTitle');
+const js_order_number = document.querySelector('.js-orderNumber');
+const js_text = document.querySelector('.js-text');
 async function fetch_api_order() {
   const token = localStorage.getItem('token');
   if (!token) {
     window.location.href = '/';
     return;
   }
-  const url = `/api/order/${orderNumber}`; //把orderNumber 放到正確的地址中
-  const res = await fetch(url, {
+  const response = await fetch(url, {
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` },
   });
-  console.log(res);
-  const js_order = document.querySelector('.js-order');
-  js_order.textContent = orderNumber;
+  const result = await response.json();
+  console.log(result.data);
+  if (result.data) {
+    if (result.data.status === 1) {
+      js_top_title.textContent = '行程預定成功';
+      js_sub_title.textContent = '您的訂單編號如下';
+      js_order_number.textContent = result.data.number;
+      js_text.textContent = '請記住此編號，或到會員中心查詢歷史訂單';
+    } else {
+      js_top_title.textContent = '行程預定失敗';
+      js_top_title.style.color = 'red';
+      js_sub_title.textContent = '請確認輸入資料是否正確';
+      js_sub_title.style.color = 'red';
+    }
+  } else {
+    js_top_title.textContent = '查無此筆訂單';
+    js_sub_title.textContent = '請不要變更網址內容';
+  }
 }
 
 document.addEventListener('DOMContentLoaded', fetch_api_order);
