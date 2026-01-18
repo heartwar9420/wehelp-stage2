@@ -1,0 +1,18 @@
+.order {
+  text-align: center;
+}
+
+.order__title {
+  color: #666666;
+  margin: 0 auto 20px;
+}
+
+.order__number {
+  color: #666666;
+  margin: 40px auto;
+}
+
+.order__text {
+  color: #666666;
+  margin: 40px auto;
+}

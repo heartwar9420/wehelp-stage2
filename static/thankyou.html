@@ -4,6 +4,77 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Thank You</title>
+    <link rel="stylesheet" href="/static/css/base.css" />
+    <link rel="stylesheet" href="/static/css/thankyou.css" />
+    <link rel="icon" href="data:," />
+    <!-- 為了不要一直顯示favicon.ico 404 寫了這個 意思是給他一個空的 就不會一直跳了-->
   </head>
-  <body></body>
+  <body>
+    <main>
+      <!-- navigation -->
+      <nav class="nav">
+        <div class="nav__container">
+          <button onclick="window.location.href='/'" class="h2 btn nav__title">台北一日遊</button>
+          <div class="nav__menu">
+            <button class="nav__btn js-booking btn">預定行程</button>
+            <button class="nav__btn nav__btn--login btn">登入/註冊</button>
+            <button class="nav__btn nav__btn--logout btn is-hidden">登出帳號</button>
+          </div>
+        </div>
+      </nav>
+
+      <hr class="nav__separator" />
+
+      <!-- OrderNumber -->
+      <div class="order">
+        <div class="button-bold order__title js-topTitle">資料查詢中...</div>
+        <div class="button-bold order__title js-subTitle">請稍候</div>
+        <div class="body-med order__number js-orderNumber"></div>
+        <div class="body-med order__text js-text"></div>
+      </div>
+    </main>
+
+    <!-- footer -->
+    <footer>
+      <p class="footer-text body-bold">COPYRIGHT © 2021 台北一日遊</p>
+    </footer>
+
+    <!-- login dialog -->
+    <dialog id="loginDialog" class="is-hidden">
+      <h3 class="login__title">登入會員帳號</h3>
+      <form class="login__input-area">
+        <button type="button" class="login__close-btn">
+          <img src="/static/images/close_btn.png" class="login__close--image btn" />
+        </button>
+        <input type="email" placeholder="輸入電子信箱" class="body-med login__input" />
+        <input type="password" placeholder="輸入密碼" class="body-med login__input" />
+        <button type="submit" class="button-reg btn login__btn">登入帳戶</button>
+        <div class="is-hidden body-med login__errortext">錯誤</div>
+        <button type="button" id="LogincloseBtn" class="body-med btn login__register-btn">
+          還沒有帳戶？點此註冊
+        </button>
+      </form>
+    </dialog>
+    <!-- register dialog -->
+
+    <dialog id="registerDialog" class="is-hidden">
+      <h3 class="register__title">註冊會員帳號</h3>
+      <form class="register__input-area">
+        <button type="button" class="register__close-btn">
+          <img src="/static/images/close_btn.png" class="register__close--image btn" />
+        </button>
+        <input type="text" placeholder="輸入姓名" class="body-med register__input" />
+        <input type="email" placeholder="輸入電子信箱" class="body-med register__input" />
+        <input type="password" placeholder="輸入密碼" class="body-med register__input" />
+        <button type="submit" class="button-reg btn register__btn">註冊新帳戶</button>
+        <div class="is-hidden body-med register__errortext">錯誤</div>
+        <button type="button" id="RegistercloseBtn" class="body-med btn register__login-btn">
+          已經有帳戶了？點此登入
+        </button>
+      </form>
+    </dialog>
+    <!-- script -->
+    <script src="/static/js/base.js"></script>
+    <script src="/static/js/thankyou.js"></script>
+  </body>
 </html>

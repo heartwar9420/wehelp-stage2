@@ -97,6 +97,15 @@ h3 {
 }
 /* nav */
 
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main {
+  flex-grow: 1;
+}
+
 .nav {
   width: 100%;
 }
@@ -130,6 +139,10 @@ h3 {
   border: 0;
   cursor: pointer;
   white-space: nowrap;
+}
+
+.nav__separator {
+  margin: 0px 0 40px;
 }
 
 /* footer */
