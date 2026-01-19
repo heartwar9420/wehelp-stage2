@@ -95,8 +95,12 @@
   height: 100%;
   padding: 10px;
 }
+.contact__input:hover {
+  border-color: #bbbbbb; /* 微微變深，暗示可點擊 */
+}
 .contact__input:focus {
   outline: 2px solid black;
+  box-shadow: 0 0 0 3px rgba(68, 136, 153, 0.2);
 }
 
 /* payment */
@@ -128,6 +132,9 @@
   width: 100%;
   height: 20px;
   padding: 10px;
+}
+.payment__input:hover {
+  border-color: #bbbbbb; /* 微微變深，暗示可點擊 */
 }
 
 /* TapPay Fields */

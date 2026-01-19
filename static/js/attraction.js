@@ -1,5 +1,20 @@
 // fetch /attraction/{id}
 // 先取得 景點的 id
+const loading = document.querySelector('.loading');
+loading.classList.remove('is-hidden');
+
+const dateInput = document.querySelector('.booking__fielddate');
+
+const todayStr = new Date().toISOString().split('T')[0];
+// 取得「今天」的標準日期格式 (YYYY-MM-DD)
+// new Date() = 現在時間
+// .toISOString() = 轉成國際標準字串 ("2026-01-19T06:00:00.000Z")
+// .split('T')[0] = 從 "T" 切開，只拿前面日期的部分 ("2026-01-19")
+
+dateInput.setAttribute('min', todayStr);
+//設定 input 的最小值 (min) 屬性
+//日曆打開時，比 todayStr 更早的日期都會變灰色，無法點選
+
 const path = window.location.pathname; // 取得路徑部分，這會得到 "/attraction/1"
 const parts = path.split('/'); // 使用 "/" 來切割字串
 const attractionId = parts[parts.length - 1]; // 取得陣列中的最後一個元素
@@ -98,11 +113,12 @@ fetch_attraction_data();
 // fetch /api/booking
 const booking_btn = document.querySelector('#bookingBtn');
 booking_btn.addEventListener('click', async function () {
-  const date = document.querySelector('.booking__fielddate').value;
-  if (date === '') {
+  const selectDate = document.querySelector('.booking__fielddate').value;
+  if (selectDate === '') {
     alert('請選擇日期！');
     return;
   }
+
   const timeInput = document.querySelector('input[name="time"]:checked');
   if (!timeInput) {
     alert('請選擇時間！');
@@ -118,7 +134,7 @@ booking_btn.addEventListener('click', async function () {
 
   const bookingData = {
     attractionId: parseInt(attractionId),
-    date: date,
+    date: selectDate,
     time: time,
     price: price,
   };
@@ -161,3 +177,4 @@ if (picktime) {
   const picktimevalue = document.querySelector(`input[name="time"][value="${picktime}"]`);
   picktimevalue.checked = true;
 }
+loading.classList.add('is-hidden');

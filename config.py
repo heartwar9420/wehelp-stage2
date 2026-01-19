@@ -14,4 +14,3 @@ my_partner_key = os.getenv("PARTNER_KEY")
 PARTNER_KEY = my_partner_key
 my_merchant_id = os.getenv("MERCHANT_ID")
 MERCHANT_ID = my_merchant_id
-print(MERCHANT_ID)

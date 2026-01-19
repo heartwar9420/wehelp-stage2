@@ -1,5 +1,6 @@
 // popup
-
+const loading = document.querySelector('.loading');
+loading.classList.remove('is-hidden');
 const selectorBtn = document.querySelector('.search-selector');
 const popup = document.getElementById('categoryPopup');
 
@@ -218,6 +219,10 @@ async function api_attractions(page, keyword = '', category = '') {
 
   isLoading = true; //開始函式就 = 開始loading
 
+  if (page === 0) {
+    loading.classList.remove('is-hidden');
+  }
+
   const attractionList = document.querySelector('.attraction-list');
 
   try {
@@ -279,12 +284,8 @@ async function api_attractions(page, keyword = '', category = '') {
                 </div>
             </a>
                 <div class="attractions-info">
-                    <div class="body-med attractions-mrt-name ">${
-                      attraction.mrt || ''
-                    }</div>
-                    <div class="body-med attractions-category-name ">${
-                      attraction.category
-                    }</div>
+                    <div class="body-med attractions-mrt-name ">${attraction.mrt || ''}</div>
+                    <div class="body-med attractions-category-name ">${attraction.category}</div>
                 </div>
             `;
       attractionList.appendChild(attraction_card);
@@ -292,6 +293,7 @@ async function api_attractions(page, keyword = '', category = '') {
   } catch (err) {
     console.error('載入景點失敗:', err);
   } finally {
+    loading.classList.add('is-hidden');
     isLoading = false; // 完成後 = 結束讀取了！
   }
 }

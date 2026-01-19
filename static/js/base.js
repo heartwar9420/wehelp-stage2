@@ -50,6 +50,8 @@ LogincloseBtn.addEventListener('click', () => {
 
 // register
 async function Register() {
+  const loading = document.querySelector('.loading');
+  loading.classList.add('is-hidden');
   // 抓取資料
   const name = document.querySelector(".register__input[type='text']").value;
   const email = document.querySelector(".register__input[type='email']").value;
