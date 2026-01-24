@@ -260,5 +260,5 @@ dialog::backdrop {
 }
 
 .is-hidden {
-  display: none !important;
+  display: none;
 }
