@@ -244,6 +244,8 @@ dialog::backdrop {
 
 /* loading  */
 .loading {
+  top: 0;
+  left: 0;
   z-index: 999;
   position: fixed;
   width: 100%;
@@ -258,5 +260,5 @@ dialog::backdrop {
 }
 
 .is-hidden {
-  display: none;
+  display: none !important;
 }

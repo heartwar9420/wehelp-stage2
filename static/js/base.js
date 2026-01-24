@@ -157,8 +157,10 @@ async function checkAuthStatus() {
     const result = await response.json();
     if (result.data) {
       const loginBtn = document.querySelector('.nav__btn--login');
-      memberBtn.classList.remove('is-hidden');
-      loginBtn.classList.add('is-hidden');
+      if (memberBtn) {
+        memberBtn.classList.remove('is-hidden');
+        loginBtn.classList.add('is-hidden');
+      }
     } else {
       localStorage.removeItem('token');
     }

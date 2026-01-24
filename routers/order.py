@@ -253,3 +253,66 @@ async def get_order(orderNumber: str, payload: dict = Depends(get_token)):
 
         if conn is not None:
             conn.close()
+
+
+# 取得歷史訂單
+@router.get("/api/orders")
+async def get_orders(payload: dict = Depends(get_token)):
+    member_id = payload["id"]
+    conn = None
+    cursor = None
+
+    try:
+        conn = pool.get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        sql = """
+            SELECT order_number, price, attraction_id, attractions.name,
+            attractions.address, order_date, order_time, contact_name,
+            contact_phone, contact_email, paid_status,
+            (SELECT image_url FROM images WHERE attraction_id = attractions.id LIMIT 1) as image_url
+            FROM orders 
+            INNER JOIN attractions 
+            ON orders.attraction_id = attractions.id
+            WHERE member_id = %s 
+            ORDER BY order_number DESC; 
+        """
+        cursor.execute(sql, [member_id])
+        rows = cursor.fetchall()
+
+        result = []
+        for res in rows:
+            order_data = {
+                "number": res["order_number"],
+                "price": res["price"],
+                "trip": {
+                    "attraction": {
+                        "id": res["attraction_id"],
+                        "name": res["name"],
+                        "address": res["address"],
+                        "image": res["image_url"],
+                    },
+                    "date": res["order_date"],
+                    "time": res["order_time"],
+                },
+                "contact": {
+                    "name": res["contact_name"],
+                    "email": res["contact_email"],
+                    "phone": res["contact_phone"],
+                },
+                "status": res["paid_status"],
+            }
+            result.append(order_data)
+
+        return {"data": result}
+    except Exception as e:
+        print("API /api/orders error:", e)
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+    finally:
+        if cursor is not None:
+            cursor.close()
+
+        if conn is not None:
+            conn.close()
