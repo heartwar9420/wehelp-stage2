@@ -58,6 +58,53 @@ async function get_api_user_auth() {
   }
 }
 
+// update
+const updateBtn = document.querySelector('.js-update');
+const userNameInput = document.querySelector('.js-userName');
+const userEmailInput = document.querySelector('.js-userEmail');
+
+if (updateBtn) {
+  updateBtn.addEventListener('click', async (e) => {
+    e.preventDefault(); // 阻止表單預設的送出行為 (不然網頁會重新整理)
+
+    const name = userNameInput.value.trim();
+    const email = userEmailInput.value.trim();
+
+    if (!name || !email) {
+      alert('姓名與信箱不能為空');
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+    const loading = document.querySelector('.loading');
+    loading.classList.remove('is-hidden');
+
+    try {
+      const res = await fetch('/api/user', {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const result = await res.json();
+
+      if (result.ok) {
+        alert('資料更新成功！');
+      } else {
+        alert('更新失敗：' + (result.message || '未知錯誤'));
+      }
+    } catch (err) {
+      console.error('更新錯誤:', err);
+      alert('系統錯誤，請稍後再試');
+    } finally {
+      loading.classList.add('is-hidden');
+    }
+  });
+}
+
 // fetch /api/orders
 async function get_api_orders() {
   loading.classList.remove('is-hidden');

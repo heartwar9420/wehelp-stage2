@@ -225,3 +225,46 @@ async def upload_image(
 
         if conn is not None:
             conn.close()
+
+
+# 更新會員資料 API
+class MemberUpdate(BaseModel):
+    name: str
+    email: str
+
+
+@router.patch("/api/user")
+async def update_user(request: MemberUpdate, payload: dict = Depends(get_token)):
+    user_id = payload["id"]
+    conn = None
+    cursor = None
+    try:
+        conn = pool.get_connection()
+        cursor = conn.cursor()
+
+        # 執行更新指令
+        cursor.execute(
+            "UPDATE member SET name=%s, email=%s WHERE id=%s",
+            [request.name, request.email, user_id],
+        )
+        conn.commit()
+
+        return {"ok": True}
+
+    except Exception as e:
+        error_message = str(e)
+        if "Duplicate entry" in error_message:
+            return JSONResponse(
+                status_code=400,
+                content={"error": True, "message": "該電子信箱已經被註冊過了"},
+            )
+
+        print("API Update User error:", e)
+        return JSONResponse(
+            status_code=500, content={"error": True, "message": "伺服器內部錯誤"}
+        )
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
