@@ -11,9 +11,11 @@ function closeloginDialog() {
 }
 
 const navBtnLogin = document.querySelector('.nav__btn--login');
-navBtnLogin.addEventListener('click', () => {
-  openloginDialog();
-});
+if (navBtnLogin) {
+  navBtnLogin.addEventListener('click', () => {
+    openloginDialog();
+  });
+}
 
 // register Dialog
 const registerDialog = document.querySelector('#registerDialog');
@@ -26,27 +28,35 @@ function closeregisterDialog() {
 }
 
 const loginRegisterBtn = document.querySelector('.login__register-btn');
-loginRegisterBtn.addEventListener('click', () => {
-  closeloginDialog();
-  openregisterDialog();
-});
+if (loginRegisterBtn) {
+  loginRegisterBtn.addEventListener('click', () => {
+    closeloginDialog();
+    openregisterDialog();
+  });
+}
 
 const registerLoginBtn = document.querySelector('.register__login-btn');
-registerLoginBtn.addEventListener('click', () => {
-  closeregisterDialog();
-  openloginDialog();
-});
+if (registerLoginBtn) {
+  registerLoginBtn.addEventListener('click', () => {
+    closeregisterDialog();
+    openloginDialog();
+  });
+}
 
 //RegistercloseBtn & LogincloseBtn
 const RegistercloseBtn = document.querySelector('.login__close-btn');
-RegistercloseBtn.addEventListener('click', () => {
-  closeloginDialog();
-});
+if (RegistercloseBtn) {
+  RegistercloseBtn.addEventListener('click', () => {
+    closeloginDialog();
+  });
+}
 
 const LogincloseBtn = document.querySelector('.register__close-btn');
-LogincloseBtn.addEventListener('click', () => {
-  closeregisterDialog();
-});
+if (LogincloseBtn) {
+  LogincloseBtn.addEventListener('click', () => {
+    closeregisterDialog();
+  });
+}
 
 // register
 async function Register() {
@@ -132,6 +142,8 @@ if (loginForm) {
   });
 }
 
+const loginBtn = document.querySelector('.nav__btn--login');
+const memberBtn = document.querySelector('.js-memberBtn');
 //checkAuthStatus
 async function checkAuthStatus() {
   let token = localStorage.getItem('token');
@@ -144,9 +156,8 @@ async function checkAuthStatus() {
     });
     const result = await response.json();
     if (result.data) {
-      const logoutBtn = document.querySelector('.nav__btn--logout');
       const loginBtn = document.querySelector('.nav__btn--login');
-      logoutBtn.classList.remove('is-hidden');
+      memberBtn.classList.remove('is-hidden');
       loginBtn.classList.add('is-hidden');
     } else {
       localStorage.removeItem('token');
@@ -162,9 +173,13 @@ function logout() {
   window.location.replace('/');
 }
 
-const logoutBtn = document.querySelector('.nav__btn--logout');
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', logout);
+// member
+function memberPage() {
+  window.location.href = `/member`;
+}
+
+if (memberBtn) {
+  memberBtn.addEventListener('click', memberPage);
 }
 
 // booking

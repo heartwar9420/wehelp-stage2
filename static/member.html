@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Member</title>
+    <link rel="stylesheet" href="/static/css/base.css" />
+    <link rel="stylesheet" href="/static/css/member.css" />
+    <link rel="icon" href="data:," />
+    <!-- 為了不要一直顯示favicon.ico 404 寫了這個 意思是給他一個空的 就不會一直跳了-->
+  </head>
+  <body>
+    <main>
+      <!-- navigation -->
+      <nav class="nav">
+        <div class="nav__container">
+          <button onclick="window.location.href='/'" class="h2 btn nav__title">台北一日遊</button>
+          <div class="nav__menu">
+            <button class="nav__btn js-booking btn">預定行程</button>
+            <button class="nav__btn js-logout btn">登出帳號</button>
+          </div>
+        </div>
+      </nav>
+      <section class="profile_container">
+        <nav class="profile_tabs">
+          <button type="button" class="tab_btn active btn button-reg">個人設定</button>
+          <button type="button" class="tab_btn btn button-reg">歷史訂單</button>
+        </nav>
+        <div class="tab_content_container">
+          <div class="tab_panel active">
+            <form class="profile_form">
+              <div class="photo_editor">
+                <div class="user_headshot_group">
+                  <img
+                    src="/static/images/test_attractions_image.jpg"
+                    class="js-userHeadshot user_headshot_img"
+                  />
+                  <button type="button" class="headshot_btn btn body-med">更新大頭貼</button>
+                </div>
+              </div>
+              <div class="user_bio">
+                <div class="form_group">
+                  <label for="user_name" class="body-bold form_label">姓名：</label>
+                  <input type="text" id="user_name" class="js-userName profile__input" />
+                </div>
+                <div class="form_group">
+                  <label for="user_email" class="body-bold form_label">信箱：</label>
+                  <input type="email" id="user_email" class="js-userEmail profile__input" />
+                </div>
+                <button type="submit" class="btn update_btn js-update button-reg">更新資料</button>
+              </div>
+            </form>
+          </div>
+          <div class="tab_panel">
+            <div class="order_history">
+              <div class="order_card">
+                <div class="attraction__imgarea">
+                  <img src="/static/images/test_attractions_image.jpg" class="attraction__img" />
+                </div>
+                <div class="attraction__info">
+                  <p class="attraction__content body-bold">
+                    台北一日遊：<span class="attraction__title body-bold">地點</span>
+                  </p>
+                  <div class="attraction__item">
+                    <span class="attraction__label body-bold">日期：</span>
+                    <span class="attraction__text js-date body-med">日期</span>
+                  </div>
+                  <div class="attraction__item">
+                    <span class="attraction__label body-bold">時間：</span>
+                    <span class="attraction__text js-time body-med">時間</span>
+                  </div>
+                  <div class="attraction__item">
+                    <span class="attraction__label body-bold">費用：</span>
+                    <span class="attraction__text body-med"
+                      >新台幣<span class="js-base-price">金額</span>元</span
+                    >
+                  </div>
+                  <div class="attraction__item">
+                    <span class="attraction__label body-bold">地點：</span>
+                    <span class="attraction__text js-location body-med">地址</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- footer -->
+    <footer>
+      <p class="footer-text body-bold">COPYRIGHT © 2021 台北一日遊</p>
+    </footer>
+
+    <!-- loading
+    <div class="loading is-hidden">資料讀取中，請稍候</div> -->
+    <!-- script -->
+    <script src="/static/js/base.js"></script>
+    <script src="/static/js/member.js"></script>
+  </body>
+</html>
