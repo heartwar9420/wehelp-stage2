@@ -1,6 +1,8 @@
 // fetch get /api/booking
 let bookingData = null;
 let bookingAttraction = null;
+const loading = document.querySelector('.loading');
+loading.classList.remove('is-hidden');
 
 async function get_api_booking() {
   const token = localStorage.getItem('token');
@@ -8,63 +10,71 @@ async function get_api_booking() {
     window.location.href = '/';
     return;
   }
-  const res = await fetch('/api/booking', {
-    method: 'GET',
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  const result = await res.json();
+  try {
+    const res = await fetch('/api/booking', {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const result = await res.json();
 
-  const booking__empty = document.querySelector('.booking__empty');
-  const booking__content = document.querySelector('.booking__content');
-  const userResponse = await fetch('/api/user/auth', {
-    method: 'GET',
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  const userResult = await userResponse.json();
-  const userData = userResult.data;
-  if (userData) {
-    // console.log(userData);
-    const userAccountname = document.querySelector('.user_accountname');
-    userAccountname.textContent = userData.name;
-    const userName = document.querySelector('.js-name');
-    userName.value = userData.name;
+    const booking__empty = document.querySelector('.booking__empty');
+    const booking__content = document.querySelector('.booking__content');
+    const userResponse = await fetch('/api/user/auth', {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const userResult = await userResponse.json();
+    const userData = userResult.data;
+    if (userData) {
+      // console.log(userData);
+      const userAccountname = document.querySelector('.user_accountname');
+      userAccountname.textContent = userData.name;
+      const userName = document.querySelector('.js-name');
+      userName.value = userData.name;
 
-    const userEmail = document.querySelector('.js-email');
-    userEmail.value = userData.email;
-  }
-  if (result.data === null) {
-    booking__content.classList.add('is-hidden');
-    booking__empty.classList.remove('is-hidden');
-    return;
-  } else {
-    bookingData = result.data;
-    bookingAttraction = bookingData.attraction;
-
-    const attraction__title = document.querySelector('.attraction__title');
-    attraction__title.textContent = bookingAttraction.name;
-
-    const js_date = document.querySelector('.js-date');
-    js_date.textContent = bookingData.date;
-
-    const js_time = document.querySelector('.js-time');
-    if (bookingData.time === 'morning') {
-      js_time.textContent = '早上 9 點到下午 4 點';
-    } else {
-      js_time.textContent = '下午 2 點到晚上 9 點';
+      const userEmail = document.querySelector('.js-email');
+      userEmail.value = userData.email;
     }
+    if (result.data === null) {
+      booking__content.classList.add('is-hidden');
+      booking__empty.classList.remove('is-hidden');
+      loading.classList.add('is-hidden');
+      return;
+    } else {
+      bookingData = result.data;
+      bookingAttraction = bookingData.attraction;
 
-    const js_base_price = document.querySelector('.js-base-price');
-    js_base_price.textContent = bookingData.price;
-    const js_total_price = document.querySelector('.js-total-price');
-    js_total_price.textContent = bookingData.price;
+      const attraction__title = document.querySelector('.attraction__title');
+      attraction__title.textContent = bookingAttraction.name;
 
-    const attraction__img = document.querySelector('.attraction__img');
-    attraction__img.src = bookingAttraction.image;
+      const js_date = document.querySelector('.js-date');
+      js_date.textContent = bookingData.date;
 
-    const js_location = document.querySelector('.js-location');
-    js_location.textContent = bookingAttraction.address;
+      const js_time = document.querySelector('.js-time');
+      if (bookingData.time === 'morning') {
+        js_time.textContent = '早上 9 點到下午 4 點';
+      } else {
+        js_time.textContent = '下午 2 點到晚上 9 點';
+      }
+
+      const js_base_price = document.querySelector('.js-base-price');
+      js_base_price.textContent = bookingData.price;
+      const js_total_price = document.querySelector('.js-total-price');
+      js_total_price.textContent = bookingData.price;
+
+      const attraction__img = document.querySelector('.attraction__img');
+      attraction__img.src = bookingAttraction.image;
+
+      const js_location = document.querySelector('.js-location');
+      js_location.textContent = bookingAttraction.address;
+    }
+  } catch (err) {
+    console.error('載入失敗', err);
+  } finally {
+    loading.classList.add('is-hidden');
   }
 }
+
 document.addEventListener('DOMContentLoaded', get_api_booking);
 
 //fetch delete/api/booking
@@ -172,6 +182,7 @@ checkoutForm.addEventListener('submit', function (event) {
 
 // fetch POST /api/order
 async function post_api_order(prime) {
+  loading.classList.remove('is-hidden');
   const token = localStorage.getItem('token');
   const contactName = document.querySelector('.js-name').value;
   const contactEmail = document.querySelector('.js-email').value;
@@ -199,15 +210,21 @@ async function post_api_order(prime) {
     },
   };
   // console.log(data);
-  const res = await fetch('api/orders', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json', // 告訴後端我們傳的是 JSON，不然 FastAPI 會看不懂
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data), //把物件轉成JSON 字串
-  });
-  const result = await res.json();
-  // console.log(result.data.number);
-  window.location.href = `/thankyou?number=${result.data.number}`;
+  try {
+    const res = await fetch('api/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // 告訴後端我們傳的是 JSON，不然 FastAPI 會看不懂
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data), //把物件轉成JSON 字串
+    });
+    const result = await res.json();
+    // console.log(result.data.number);
+    window.location.href = `/thankyou?number=${result.data.number}`;
+  } catch (err) {
+    console.error(err);
+    loading.classList.add('is-hidden');
+    alert('預訂失敗，請稍後再試');
+  }
 }

@@ -40,6 +40,11 @@ async def thankyou(request: Request):
     return FileResponse("./static/thankyou.html", media_type="text/html")
 
 
+@app.get("/member", include_in_schema=False)
+async def member(request: Request):
+    return FileResponse("./static/member.html", media_type="text/html")
+
+
 # 在這邊處理 422 錯誤 強制變 400
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
