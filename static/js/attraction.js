@@ -91,6 +91,8 @@ async function fetch_attraction_data() {
     infoTransport.textContent = data.transport;
   } catch (err) {
     console.error('發生錯誤：', err);
+  } finally {
+    loading.classList.add('is-hidden');
   }
 }
 
@@ -140,7 +142,7 @@ booking_btn.addEventListener('click', async function () {
   };
   const token = localStorage.getItem('token');
   if (!token) {
-    sessionStorage.setItem('pickdate', date);
+    sessionStorage.setItem('pickdate', selectDate);
     sessionStorage.setItem('picktime', time);
     openloginDialog();
     return;
@@ -177,4 +179,3 @@ if (picktime) {
   const picktimevalue = document.querySelector(`input[name="time"][value="${picktime}"]`);
   picktimevalue.checked = true;
 }
-loading.classList.add('is-hidden');
