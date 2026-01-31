@@ -1,5 +1,7 @@
 # 台北一日遊電商網站 (Taipei Day Trip)
 
+![Main Booking Flow Demo](https://github.com/user-attachments/assets/e0f9a349-d3f4-4e45-81eb-2479c39996cb)
+
 一個全端開發的旅遊電商平台，整合會員系統、景點搜尋、購物車與第三方金流支付功能。
 本專案為 WeHelp Bootcamp Stage 2 的實作成果，重點在於**後端 API 架構設計**、**資料庫規劃**與**雲端部署**。
 
@@ -90,12 +92,14 @@
 * **歷史訂單查詢 (Order History)**：
     * 透過 Member ID 查詢 `Orders` 資料表（One-to-Many Relationship）。
     * 使用者可隨時檢視過往的預約紀錄與付款狀態，提升使用者體驗。
+      
+![Member Center Demo](https://github.com/user-attachments/assets/ca946cef-7409-48b9-8fcb-57b54c4f1cc9)
 
 ---
 
 ##  專案心得與成長
 
-經由 wehelp 的訓練指導
+經由 wehelp 的紮實訓練
 在這個專案中，我最大的收穫是**「親手打造資料流的每一個環節」**。
 從設計 MySQL Table 開始，到撰寫 Python SQL 指令，再到前端 fetch 資料渲染。
 是一個讓我正式從沒有寫過程式的人，轉換成一個可以自已完成一個小專案的第一步。
