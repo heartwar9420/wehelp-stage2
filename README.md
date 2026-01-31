@@ -4,19 +4,32 @@
 本專案為 WeHelp Bootcamp Stage 2 的實作成果，重點在於**後端 API 架構設計**、**資料庫規劃**與**雲端部署**。
 
 **網址**： ( AWS 網址)
-**測試帳號**： `aa@aa.com`
-**測試密碼**： `aa`
+
+## 🧪 測試資訊 (Test Credentials)
+為了方便您快速體驗完整功能，我準備了預設的測試環境與金流測試卡號：
+
+### 1. 測試會員帳號
+| 角色 | Email (帳號) | 密碼 | 權限說明 |
+| :--- | :--- | :--- | :--- |
+| **測試會員** | `aa@aa.com` | `aa` | 可使用預約行程、購物車與會員中心功能 |
+
+### 2. 測試信用卡 (TapPay Sandbox)
+請使用以下卡號進行付款測試（不會實際扣款）：
+| 狀態 | 卡號 | 到期日 | CCV |
+| :--- | :--- | :--- | :--- |
+| **交易成功** | `4242-4242-4242-4242` | `MM/YY` (大於今日即可) | `123` |
+| **交易失敗** | `4311-9522-2222-2222` | `MM/YY` (小於今日) | `123` |
 
 ---
 
 ##  技術堆疊 (Tech Stack)
 
-這是一個不依賴大型框架魔法，從底層邏輯建構的專案：
+這是一個從底層邏輯建構的專案：
 
 * **Backend**: Python, FastAPI
-* **Database**: MySQL (使用 Raw SQL 指令操作，以深入理解資料庫邏輯)
+* **Database**: MySQL (使用 原生 SQL 指令操作)
 * **Frontend**: JavaScript (Vanilla), Fetch API, HTML/CSS
-* **Infrastructure**: AWS EC2 (Linux Ubuntu), Nginx
+* **Infrastructure**: AWS EC2 (Linux Ubuntu)
 * **Payment**: TapPay SDK
 
 ---
@@ -81,5 +94,7 @@
 
 ##  專案心得與成長
 
+經由 wehelp 的訓練指導
 在這個專案中，我最大的收穫是**「親手打造資料流的每一個環節」**。
-從設計 MySQL Table 開始，到撰寫 Python SQL 指令，再到前端 fetch 資料渲染。雖然直接寫 Raw SQL 比起用 ORM 辛苦，但這讓我清楚看見了每一筆資料是如何在伺服器與資料庫之間流動，也為未來的後端優化打下基礎。
+從設計 MySQL Table 開始，到撰寫 Python SQL 指令，再到前端 fetch 資料渲染。
+是一個讓我正式從沒有寫過程式的人，轉換成一個可以自已完成一個小專案的第一步。
