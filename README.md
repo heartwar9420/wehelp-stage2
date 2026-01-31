@@ -3,9 +3,9 @@
 一個全端開發的旅遊電商平台，整合會員系統、景點搜尋、購物車與第三方金流支付功能。
 本專案為 WeHelp Bootcamp Stage 2 的實作成果，重點在於**後端 API 架構設計**、**資料庫規劃**與**雲端部署**。
 
-**網址**： (請在此貼上你的 AWS 網址)
-**測試帳號**： `test@test.com` (建議提供一組測試帳號方便面試官登入)
-**測試密碼**： `123456`
+**網址**： ( AWS 網址)
+**測試帳號**： `aa@aa.com`
+**測試密碼**： `aa`
 
 ---
 
@@ -66,6 +66,16 @@
 ### 4. 金流串接 (Payment Integration)
 * 串接 **TapPay** 第三方支付。
 * 前端利用 TapPay iframe 取得 Prime Key，後端向 TapPay 伺服器請求扣款，完成完整的支付流程。
+
+### 5. 會員中心 (Member Center)
+建立完整的會員管理後台，實現 CRUD 中的 Update 與 Read 操作：
+* **個人資料管理 (Profile Management)**：允許會員修改姓名、Email 等基本資料，透過 SQL `UPDATE` 指令即時更新資料庫。
+* **大頭貼上傳 (Avatar Upload)**：
+    * 實作圖片上傳功能（File Upload），限制檔案格式與大小。
+    * 後端接收 `multipart/form-data` 請求，將圖片儲存後，更新 Member Table 中的圖片路徑欄位。
+* **歷史訂單查詢 (Order History)**：
+    * 透過 Member ID 查詢 `Orders` 資料表（One-to-Many Relationship）。
+    * 使用者可隨時檢視過往的預約紀錄與付款狀態，提升使用者體驗。
 
 ---
 
